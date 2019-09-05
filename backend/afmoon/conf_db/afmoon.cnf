@@ -1,0 +1,6 @@
+[client]
+database = afmoon
+host = localhost
+user = django
+password = 110595men
+default-character-set=utf8

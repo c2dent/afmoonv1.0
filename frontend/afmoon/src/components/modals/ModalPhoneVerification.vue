@@ -1,10 +1,10 @@
 <template>
 	<transition name="modal">
-		<div class="modal_wrap" v-if="loginOpened">
-			<div class="modal_background" @click="closeModalLogin"></div>
+		<div class="modal_wrap" v-if="verificationOpened">
+			<div class="modal_background" @click="close_verification_modal"></div>
 			<div class="container shadow bg-white pl-sm-5 pr-sm-5 pb-sm-5 pl-3 pr-3 pb-3" id="modal">
 				<div id="close_modal">
-					<button @click="closeModalLogin">
+					<button @click="close_verification_modal">
 						<font-awesome-icon icon="times" size="lg"></font-awesome-icon>
 					</button>
 				</div>
@@ -12,20 +12,17 @@
 					<a href="#">
 						<h2>AFMOON</h2>
 					</a>
-
-				</div>
-				<div class="col-12 mb-4 pb-1 pb-sm-4">
-					<span><i>Афмун это сайт бесплатных доска объявлении</i></span>
 				</div>
 				<div class="col-12">
-					<form @submit.prevent="send_sms">
-						<span>Пожалуюста введите свой номер телефона</span>
+					<form>
+						<span class="hint">Мы отправили на вашу номер SMS с кодом пожалуюста введите код пароля для потверждении телефона</span>
 						<fieldset class="form-group">
-							<span id="plus">+</span><input type="tel" id="phone" class="form-control" required v-model="phone_number">
+							<input type="tel" id="phone" class="form-control" required placeholder="SMS код">
+							<button class="again" type="reset">отправить еще раз</button>
 						</fieldset>
 						<div>
 							<button class="btn btn-outline-success h35 m-2">
-								Получить код для входа
+								Потвердить
 							</button>
 						</div>
 					</form>
@@ -38,28 +35,16 @@
 // eslint-disable-next-line
 /* eslint-disable */
 export default {
-	name: 'ModalLogin',
+	name: 'ModalPhoneVerification',
 	props: {
-		loginOpened : {
+		verificationOpened : {
 			type : Boolean,
 		},
 	},
-	data () {
-		return {
-			phone_number : ""
-		}
-	},
 	methods: {
-		closeModalLogin () {
+		close_verification_modal () {
 			this.$emit('close')
 		},
-		show_verification (){
-			this.$root.$emit('show_verification_modal')
-		},
-		send_sms (){
-			this.phone_number = '+' + this.phone_number;
-			this.$root.$emit('send_sms', this.phone_number)
-		}
 	}
 }
 </script>
@@ -98,33 +83,38 @@ export default {
 	transition: all 1s;
 	position:relative;
 }
-#plus {
-	display:inline-block;
-	height:100%;
-	margin-right:6px;
-	font-size:x-large;
+.again {
+	display: inline-block;
+	font-size:10px;
+	background-color:white;
+	border:none;
+}
+.again:hover {
+	color:green;
+}
+.hint {
+	display:block;
+	padding-bottom: 20px;
 }
 input{
-	border-left:none;
-	border-right:none;
-	border-top:none;
-	border-bottom:1px solid black;
+	border:none;
 	border-radius:0px;
 	box-shadow:none;
 	padding:0px;
+	background-color: #DBDBDB
 }
 input:focus {
-	border-left:none;
-	border-right:none;
-	border-top:none;
-	border-bottom:1px solid black;
+	border:none;
 	border-radius:0px;
 	box-shadow:none;
+	background-color: #DBDBDB
 }
 fieldset {
 	display:flex;
 	flex-direction:row;
 	align-items:center;
+	margin-top:20px;
+	margin-bottom:20px;
 }
 .modal-enter,
 .modal-leave-active {
