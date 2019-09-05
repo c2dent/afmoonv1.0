@@ -57,8 +57,8 @@ export default {
 			this.$root.$emit('show_verification_modal')
 		},
 		send_sms (){
-			this.phone_number = '+' + this.phone_number;
-			this.$root.$emit('send_sms', this.phone_number)
+			const phone = '+' + this.phone_number;
+			this.$root.$emit('send_sms', phone)
 		}
 	}
 }

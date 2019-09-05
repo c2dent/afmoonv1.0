@@ -12,23 +12,24 @@ from .models import User
 @api_view(['POST'])
 @permission_classes([AllowAny,])
 def send_sms(request):
-	phone_number = request.data.get(phone_number, None)
-	url = "http://2factor.in/API/V1/" + settings.API_KEY + "/SMS/" + phone_number + "/AUTOGEN/OTPSEND"
+	phone_number = request.data.get('phone_number')
 	if phone_number:
+		url = "http://2factor.in/API/V1/" + settings.API_KEY + "/SMS/" + phone_number + "/AUTOGEN/OTPSEND"
 		response = requests.request("GET", url)
 		data = response.json()
-		request.session['otp_session_data'] = data['Details']
-		response_data = {'Message': 'Succes'}
-	else:
-		response_data = {'Message': 'Failed'}
-	return Response(response_data)
+		if data['Status'] == 'Succes':
+			request.session['otp_session_data'] = data['Details']
+			response_data = {'Message': 'Succes'}
+		else:
+			response_data = {'Message': 'Failed'}
+	return Response(data)
 
 
 @api_view(['POST'])
 @permission_classes([AllowAny,])
 def authentification_user(request):
-	user_otp = request.data.get(otp, None)
-	phone_number = request.data.get(phone_number, None)
+	user_otp = request.data.get('otp', None)
+	phone_number = request.data.get('phone_number', None)
 	if user_otp:
 		url = "http://2factor.in/API/V1/" + settings.API_KEY + "/SMS/VERIFY/" + request.session['otp_session_data'] + "/" + user_otp + ""
 		response = requests.request("GET", url)

@@ -18,6 +18,7 @@ import Header from './components/Header.vue'
 import ModalLogin from './components/modals/ModalLogin.vue'
 import ModalPhoneVerification from './components/modals/ModalPhoneVerification.vue'
 import { HTTP } from './api/common'
+import store from './store/index'
 
 export default {
   name: 'app',
@@ -51,18 +52,28 @@ export default {
     },
 
     send_sms(phone_number) {
-      // HTTP.post('accounts/send-sms/', {'phone_number': phone_number}).then(res => {
-      //   console.log(res);
-      // })
-      // this.close_login_modal();
-      // this.show_verification_modal();
-      console.log(phone_number)
+      store.dispatch('get_sms', phone_number).then(() => {
+        let auth_status = store.getters.auth_status
+        if (auth_status == 'begin') {
+          this.close_login_modal();
+          this.show_verification_modal();
+        }
+      })
+    },
+    confirm_phone (otp) {
+      phone_number = store.getters.phone_number
+      store.dispatch(confirm_phone, { phone_number, otp})
+    },
+    logout () {
+      this.$store.dispatch('logout')
     }
   },
   created() {
     this.$root.$on('show_login_modal', this.show_login_modal),
     this.$root.$on('show_verification_modal', this.show_verification_modal)
     this.$root.$on('send_sms', this.send_sms)
+    this.$root.$on('confirm_phone', this.confirm_phone)
+    this.$root.$on('logout', this.logout)
   }
 }
 </script>

@@ -1,0 +1,6 @@
+export const AUTH_REQUEST = 'AUTH_REQUEST'
+export const AUTH_SUCCES = 'AUTH_SUCCES'
+export const AUTH_ERROR = 'AUTH_ERROR'
+export const AUTH_LOGOUT = 'AUTH_LOGOUT'
+export const AUTH_BEGIN = 'AUTH_BEGIN'
+export const SET_PHONE_NUMBER = 'SET_PHONE_NUMBER'

@@ -42,7 +42,10 @@
 							</form>
 						</div>
 					</div>
-					<div class="col-md-1 d-none d-sm-none d-md-block">
+					<div class="col-md-1 d-none d-sm-none d-md-block" v-if="authorization">
+						<button class="btn btn-outline-success h35" @click="logout">Выйти</button>
+					</div>
+					<div class="col-md-1 d-none d-sm-none d-md-block" v-else>
 						<button class="btn btn-outline-success h35" @click="show_login">Войти</button>
 					</div>
 				</div>	
@@ -57,11 +60,21 @@ export default{
 	},
 	data (){
 		return {
+			authorization: false
 		}
 	},
 	methods: {
 		show_login () {
 			this.$root.$emit('show_login_modal');
+		},
+		logout () {
+			this.$root.$emit(logout)
+		}
+	},
+	beforeMount () {
+		const token = localStorage.getItem('user-token')
+		if (token) {
+			this.authorization = true
 		}
 	}
 }

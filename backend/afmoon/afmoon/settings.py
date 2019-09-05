@@ -21,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'i@^ppkhwt@7$(a%b4$u7u+y^ts(#aqa@g4yu(4zz)7ru%1(m9a'
-API_KEY = 'edecb216-b3aa-11e9-ade6-0200cd936042'
+API_KEY = 'b2109766-cf53-11e9-ade6-0200cd936042'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -73,8 +73,8 @@ TEMPLATES = [
 ]
 
 
-# CORS_ORIGIN_ALLOW_ALL = True
-# CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
 # CORS_ORIGIN_WHITELIST = (
 #     'http://localhost:8080/',
 #     )
