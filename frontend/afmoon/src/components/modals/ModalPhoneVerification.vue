@@ -14,14 +14,14 @@
 					</a>
 				</div>
 				<div class="col-12">
-					<form @submit="confirm_phone">
+					<form @submit.prevent="confirm_phone">
 						<span class="hint">Мы отправили на вашу номер SMS с кодом пожалуюста введите код пароля для потверждении телефона</span>
 						<fieldset class="form-group">
 							<input type="tel" id="phone" class="form-control" required placeholder="SMS код" v-model="otp">
-							<button class="again" type="reset">отправить еще раз</button>
+							<button class="again" type="button">отправить еще раз</button>
 						</fieldset>
 						<div>
-							<button class="btn btn-outline-success h35 m-2">
+							<button class="btn btn-outline-success h35 m-2" type="submit">
 								Потвердить
 							</button>
 						</div>
@@ -43,7 +43,7 @@ export default {
 	},
 	data () {
 		return {
-			otp: ''
+			otp: ""
 		}
 	},
 	methods: {
@@ -51,7 +51,7 @@ export default {
 			this.$emit('close')
 		},
 		confirm_phone (){
-			this.$root.$emit(confirm_phone, otp)
+			this.$root.$emit('confirm_phone', this.otp)
 		}
 	},
 }

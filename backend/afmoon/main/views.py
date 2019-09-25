@@ -1,12 +1,14 @@
 from django.shortcuts import render
 from django.conf import settings
-import requests
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import (AllowAny, IsAuthenticated)
-from .utilities import generation_token
+from .utilities import generation_token, get_phone, get_otp
 from rest_framework.response import Response
 from rest_framework import status
-from .models import User
+from .models import User, BaseProduct, Region, Category
+from .serializers import UserSerializer, BaseProductSerializer
+import hashlib, os
+from .utilities import serializer_save
 
 
 @api_view(['POST'])
@@ -14,29 +16,22 @@ from .models import User
 def send_sms(request):
 	phone_number = request.data.get('phone_number')
 	if phone_number:
-		url = "http://2factor.in/API/V1/" + settings.API_KEY + "/SMS/" + phone_number + "/AUTOGEN/OTPSEND"
-		response = requests.request("GET", url)
-		data = response.json()
-		if data['Status'] == 'Succes':
-			request.session['otp_session_data'] = data['Details']
-			response_data = {'Message': 'Succes'}
-		else:
-			response_data = {'Message': 'Failed'}
+		data = get_phone(phone_number)
 	return Response(data)
 
 
 @api_view(['POST'])
 @permission_classes([AllowAny,])
 def authentification_user(request):
-	user_otp = request.data.get('otp', None)
-	phone_number = request.data.get('phone_number', None)
-	if user_otp:
-		url = "http://2factor.in/API/V1/" + settings.API_KEY + "/SMS/VERIFY/" + request.session['otp_session_data'] + "/" + user_otp + ""
-		response = requests.request("GET", url)
-		data = response.json()
-		if data['Status'] == "Succes":
-			if User.objects.get(phone_number=phone_number):
-				user_details = generation_token(User.objects.get(phone_number=phone_number), request)
+	user_otp = request.data.get('otp')
+	phone_number = request.data.get('phone_number')
+	otp_key = request.data.get('otp_key')
+	if phone_number and user_otp and otp_key:
+		data = get_otp(user_otp, otp_key)
+		if data['Status'] == "Success":
+			if User.objects.filter(phone_number=phone_number).exists():
+				user = User.objects.get(phone_number=phone_number)
+				user_details = generation_token(user, request)
 				return Response(user_details, status=status.HTTP_200_OK)
 			else:
 				user = User.objects.create_user(phone_number=phone_number)
@@ -46,6 +41,30 @@ def authentification_user(request):
 		else:
 			return Response({'Message':'Failed'})
 	else:
-		return Response({'Message': 'Wrong otp'})
+		return Response(request.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated,])
+def profile(request):
+	serializer = UserSerializer(request.user)
+	return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@permission_classes([AllowAny,])
+def by_region(request):
+	region = Region.objects.get(slug=request.data.get('region'))
+	ad_list = BaseProduct.objects.filter(region__lft__gte=region.lft, region__rght__lte=region.rght)
+	serializer = BaseProductSerializer(ad_list, many=True)
+	return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view('POST')
+@permission_classes([IsAuthenticated,])
+def add_ad(request):
+	serializer = serializer_save(request)
+	if serializer.is_valid():
+		serializer.save()
+		return Response(serializer.data, status=status.HTTP_201_CREATED)
+	return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 # Create your views here.

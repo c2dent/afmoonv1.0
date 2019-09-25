@@ -20,9 +20,14 @@
 									</button>
 								</div>
 								<div class="col-4 col-sm-4 d-md-none d-flex justify-content-end align-items-center order-3 p-0">
-									<button>
-										<font-awesome-icon icon="user" size="lg" @click="show_login"></font-awesome-icon>
-									</button>
+									<div v-if="authorization">
+										<router-link to="/profile"><img :src="'http://127.0.0.1:8000' + profile.avatar"  class="rounded-circle"></router-link>
+									</div>
+									<div v-else>
+										<button>
+											<font-awesome-icon icon="user" size="lg" @click="show_login"></font-awesome-icon>
+										</button>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -43,7 +48,7 @@
 						</div>
 					</div>
 					<div class="col-md-1 d-none d-sm-none d-md-block" v-if="authorization">
-						<button class="btn btn-outline-success h35" @click="logout">Выйти</button>
+						<router-link to="/profile/ads"><img :src="'http://127.0.0.1:8000' + profile.avatar"  class="rounded-circle"></router-link>
 					</div>
 					<div class="col-md-1 d-none d-sm-none d-md-block" v-else>
 						<button class="btn btn-outline-success h35" @click="show_login">Войти</button>
@@ -54,9 +59,15 @@
 	</div>
 </template>
 <script>
+import store from '../store/index'
 export default{
 	name: 'Header',
 	components: {
+	},
+	computed: {
+		profile (){
+			return store.getters.get_profile
+		}
 	},
 	data (){
 		return {
@@ -68,20 +79,25 @@ export default{
 			this.$root.$emit('show_login_modal');
 		},
 		logout () {
-			this.$root.$emit(logout)
+			this.$root.$emit('logout')
 		}
 	},
 	beforeMount () {
 		const token = localStorage.getItem('user-token')
 		if (token) {
 			this.authorization = true
+			store.dispatch('get_profile')
 		}
 	}
 }
 </script>
-<style>
+<style scoped>
 .h35 {
 	height:31px;
 	padding:0px 7px;
+}
+img {
+	max-width:34px !important;
+	max-height: auto !important;
 }
 </style>

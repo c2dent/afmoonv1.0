@@ -7,26 +7,31 @@
     <div>
       <ModalPhoneVerification :verificationOpened="verificationOpened" @close="close_verification_modal()"></ModalPhoneVerification>
     </div>
+    <div id="content">
+      <router-view></router-view>
+    </div>
+    <div id="footer">
+
+    </div>
   </div>
 </template>
 
 <script>
 // eslint-disable-next-line
 /* eslint-disable */
-import HelloWorld from './components/HelloWorld.vue'
 import Header from './components/Header.vue'
 import ModalLogin from './components/modals/ModalLogin.vue'
 import ModalPhoneVerification from './components/modals/ModalPhoneVerification.vue'
-import { HTTP } from './api/common'
+import Profile from './components/Profile.vue'
 import store from './store/index'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld,
     Header,
     ModalLogin,
-    ModalPhoneVerification
+    ModalPhoneVerification,
+    Profile
   },
   data () {
     return {
@@ -52,20 +57,28 @@ export default {
     },
 
     send_sms(phone_number) {
-      store.dispatch('get_sms', phone_number).then(() => {
-        let auth_status = store.getters.auth_status
-        if (auth_status == 'begin') {
+      store.dispatch('get_sms', { phone_number }).then(() => {
+        console.log(store.getters.auth_status)
+        if (store.getters.auth_status == 'begin') {
           this.close_login_modal();
           this.show_verification_modal();
         }
       })
     },
-    confirm_phone (otp) {
-      phone_number = store.getters.phone_number
-      store.dispatch(confirm_phone, { phone_number, otp})
+    confirm_phone(otp) {
+      let phone_number = store.getters.phone_number
+      let otp_key = localStorage.getItem('otp_key')
+      store.dispatch('confirm_phone', { phone_number, otp, otp_key})
     },
     logout () {
-      this.$store.dispatch('logout')
+        store.dispatch('logout').then(() => {
+        console.log('all good')
+      })
+    },
+    test (phone_number) {
+      console.log(phone_number)
+      this.close_login_modal();
+      this.show_verification_modal();
     }
   },
   created() {

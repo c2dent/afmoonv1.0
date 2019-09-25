@@ -1,0 +1,262 @@
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7ac080>, 'id': 5, 'title': 'Туркменистан', 'parent_id': None, 'slug': 'turkmenistan', 'lft': 1, 'rght': 132, 'tree_id': 1, 'level': 0, '_mptt_cached_fields': {'parent': None}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7ac278>, 'id': 6, 'title': 'Марыйский велаят', 'parent_id': 5, 'slug': 'maryiskii-velaiat', 'lft': 2, 'rght': 29, 'tree_id': 1, 'level': 1, '_mptt_cached_fields': {'parent': 5}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7ac2e8>, 'id': 58, 'title': 'Байрамалинский этрап', 'parent_id': 6, 'slug': 'bairamalinskii-etrap', 'lft': 3, 'rght': 4, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 6}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7ac390>, 'id': 59, 'title': 'Векилбазарский этрап', 'parent_id': 6, 'slug': 'vekilbazarskii-etrap', 'lft': 5, 'rght': 6, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 6}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7ac518>, 'id': 60, 'title': 'Каракумский этрап', 'parent_id': 6, 'slug': 'karakumskii-etrap', 'lft': 7, 'rght': 8, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 6}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7ac550>, 'id': 61, 'title': 'Ёлётенский этрап', 'parent_id': 6, 'slug': 'ioliotenskii-etrap', 'lft': 9, 'rght': 10, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 6}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7ac630>, 'id': 62, 'title': 'Марыйский этрап', 'parent_id': 6, 'slug': 'maryiskii-etrap', 'lft': 11, 'rght': 12, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 6}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7ac5f8>, 'id': 63, 'title': 'Мургапский этрап', 'parent_id': 6, 'slug': 'murgapskii-etrap', 'lft': 13, 'rght': 14, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 6}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7ac710>, 'id': 64, 'title': 'Огузханский этрап', 'parent_id': 6, 'slug': 'oguzkhanskii-etrap', 'lft': 15, 'rght': 16, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 6}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7ac6a0>, 'id': 65, 'title': 'Сакарчагинский этрап', 'parent_id': 6, 'slug': 'sakarchaginskii-etrap', 'lft': 17, 'rght': 18, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 6}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7ac7b8>, 'id': 66, 'title': 'Серхетабадский этрап', 'parent_id': 6, 'slug': 'serkhetabadskii-etrap', 'lft': 19, 'rght': 20, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 6}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7ac9e8>, 'id': 67, 'title': 'Тагтабазарский этрап', 'parent_id': 6, 'slug': 'tagtabazarskii-etrap', 'lft': 21, 'rght': 22, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 6}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7ac860>, 'id': 68, 'title': 'Туркменкалинский этрап', 'parent_id': 6, 'slug': 'turkmenkalinskii-etrap', 'lft': 23, 'rght': 24, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 6}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7ac898>, 'id': 69, 'title': 'город Мары', 'parent_id': 6, 'slug': 'gorod-mary', 'lft': 25, 'rght': 26, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 6}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7ac940>, 'id': 70, 'title': 'город Байрамали', 'parent_id': 6, 'slug': 'gorod-bairamali', 'lft': 27, 'rght': 28, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 6}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7aca20>, 'id': 7, 'title': 'Ашхабат', 'parent_id': 5, 'slug': 'ashkhabat', 'lft': 30, 'rght': 39, 'tree_id': 1, 'level': 1, '_mptt_cached_fields': {'parent': 5}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7acac8>, 'id': 54, 'title': 'Беркарарлыкский этрап', 'parent_id': 7, 'slug': 'berkararlykskii-etrap', 'lft': 31, 'rght': 32, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 7}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7aca90>, 'id': 56, 'title': 'Багтыярлыкский этрап', 'parent_id': 7, 'slug': 'bagtyiarlykskii-etrap', 'lft': 33, 'rght': 34, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 7}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7acb70>, 'id': 57, 'title': 'Бюзмейинский этрап', 'parent_id': 7, 'slug': 'biuzmeiinskii-etrap', 'lft': 35, 'rght': 36, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 7}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7acb00>, 'id': 55, 'title': 'Копетдагский этрап', 'parent_id': 7, 'slug': 'kopetdagskii-etrap', 'lft': 37, 'rght': 38, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 7}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7acbe0>, 'id': 10, 'title': 'Ахалский велаят', 'parent_id': 5, 'slug': 'akhalskii-velaiat', 'lft': 40, 'rght': 57, 'tree_id': 1, 'level': 1, '_mptt_cached_fields': {'parent': 5}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7acc88>, 'id': 46, 'title': 'Ак-Бугдайский этрап', 'parent_id': 10, 'slug': 'ak-bugdaiskii-etrap', 'lft': 41, 'rght': 42, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 10}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7accf8>, 'id': 47, 'title': 'Бабадайханский этрап', 'parent_id': 10, 'slug': 'babadaikhanskii-etrap', 'lft': 43, 'rght': 44, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 10}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7acd68>, 'id': 48, 'title': 'Бахерденский этрап', 'parent_id': 10, 'slug': 'bakherdenskii-etrap', 'lft': 45, 'rght': 46, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 10}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7acdd8>, 'id': 49, 'title': 'Гёкдепинский этрап', 'parent_id': 10, 'slug': 'giokdepinskii-etrap', 'lft': 47, 'rght': 48, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 10}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7ace48>, 'id': 50, 'title': 'Какинский этрап', 'parent_id': 10, 'slug': 'kakinskii-etrap', 'lft': 49, 'rght': 50, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 10}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7aceb8>, 'id': 51, 'title': 'Сарахский этрап', 'parent_id': 10, 'slug': 'sarakhskii-etrap', 'lft': 51, 'rght': 52, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 10}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7acf28>, 'id': 52, 'title': 'Тедженский этрап', 'parent_id': 10, 'slug': 'tedzhenskii-etrap', 'lft': 53, 'rght': 54, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 10}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7acf98>, 'id': 53, 'title': 'город Теджен', 'parent_id': 10, 'slug': 'gorod-tedzhen', 'lft': 55, 'rght': 56, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 10}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e741048>, 'id': 11, 'title': 'Балканский велаят', 'parent_id': 5, 'slug': 'balkanskii-velaiat', 'lft': 58, 'rght': 81, 'tree_id': 1, 'level': 1, '_mptt_cached_fields': {'parent': 5}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7410b8>, 'id': 35, 'title': 'Берекетский этрап', 'parent_id': 11, 'slug': 'bereketskii-etrap', 'lft': 59, 'rght': 60, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 11}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e741128>, 'id': 36, 'title': 'Махтумкулийский этрап', 'parent_id': 11, 'slug': 'makhtumkuliiskii-etrap', 'lft': 61, 'rght': 62, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 11}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e741198>, 'id': 37, 'title': 'Сердарский этрап', 'parent_id': 11, 'slug': 'serdarskii-etrap', 'lft': 63, 'rght': 64, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 11}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e741208>, 'id': 38, 'title': 'Туркменбашийский этрап', 'parent_id': 11, 'slug': 'turkmenbashiiskii-etrap', 'lft': 65, 'rght': 66, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 11}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e741278>, 'id': 39, 'title': 'Эсенгулыйский этрап', 'parent_id': 11, 'slug': 'esengulyiskii-etrap', 'lft': 67, 'rght': 68, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 11}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7412e8>, 'id': 40, 'title': 'Этрекский этрап', 'parent_id': 11, 'slug': 'etrekskii-etrap', 'lft': 69, 'rght': 70, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 11}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e741358>, 'id': 41, 'title': 'город Балканабад', 'parent_id': 11, 'slug': 'gorod-balkanabad', 'lft': 71, 'rght': 72, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 11}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7413c8>, 'id': 42, 'title': 'город Гумдаг', 'parent_id': 11, 'slug': 'gorod-gumdag', 'lft': 73, 'rght': 74, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 11}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e741438>, 'id': 43, 'title': 'город Туркменбашы', 'parent_id': 11, 'slug': 'gorod-turkmenbashy', 'lft': 75, 'rght': 76, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 11}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7414a8>, 'id': 44, 'title': 'город Хазар', 'parent_id': 11, 'slug': 'gorod-khazar', 'lft': 77, 'rght': 78, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 11}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e741518>, 'id': 45, 'title': 'город Сердар', 'parent_id': 11, 'slug': 'gorod-serdar', 'lft': 79, 'rght': 80, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 11}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e741588>, 'id': 8, 'title': 'Лебапский велаят', 'parent_id': 5, 'slug': 'lebapskii-velaiat', 'lft': 82, 'rght': 107, 'tree_id': 1, 'level': 1, '_mptt_cached_fields': {'parent': 5}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7415f8>, 'id': 23, 'title': 'Дарганатынский этрап', 'parent_id': 8, 'slug': 'darganatynskii-etrap', 'lft': 83, 'rght': 84, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 8}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e741668>, 'id': 24, 'title': 'Довлетлийский этрап', 'parent_id': 8, 'slug': 'dovletliiskii-etrap', 'lft': 85, 'rght': 86, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 8}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7416d8>, 'id': 25, 'title': 'Дяневский этрап', 'parent_id': 8, 'slug': 'dianevskii-etrap', 'lft': 87, 'rght': 88, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 8}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e741748>, 'id': 26, 'title': 'Керкинский этрап', 'parent_id': 8, 'slug': 'kerkinskii-etrap', 'lft': 89, 'rght': 90, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 8}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7417b8>, 'id': 27, 'title': 'Кёйтендагский этрап', 'parent_id': 8, 'slug': 'kioitendagskii-etrap', 'lft': 91, 'rght': 92, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 8}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e741828>, 'id': 28, 'title': 'Саятский этрап', 'parent_id': 8, 'slug': 'saiatskii-etrap', 'lft': 93, 'rght': 94, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 8}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e741898>, 'id': 29, 'title': 'Фарапский этрап', 'parent_id': 8, 'slug': 'farapskii-etrap', 'lft': 95, 'rght': 96, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 8}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e741908>, 'id': 30, 'title': 'Халачский этрап', 'parent_id': 8, 'slug': 'khalachskii-etrap', 'lft': 97, 'rght': 98, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 8}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e741978>, 'id': 31, 'title': 'Ходжамбазский этрап', 'parent_id': 8, 'slug': 'khodzhambazskii-etrap', 'lft': 99, 'rght': 100, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 8}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e7419e8>, 'id': 32, 'title': 'Чарджевский этрап', 'parent_id': 8, 'slug': 'chardzhevskii-etrap', 'lft': 101, 'rght': 102, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 8}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e741a58>, 'id': 33, 'title': 'город Туркменабад', 'parent_id': 8, 'slug': 'gorod-turkmenabad', 'lft': 103, 'rght': 104, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 8}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e741ac8>, 'id': 34, 'title': 'город Газаджак', 'parent_id': 8, 'slug': 'gorod-gazadzhak', 'lft': 105, 'rght': 106, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 8}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e741b38>, 'id': 9, 'title': 'Дашогузский велаят', 'parent_id': 5, 'slug': 'dashoguzskii-velaiat', 'lft': 108, 'rght': 131, 'tree_id': 1, 'level': 1, '_mptt_cached_fields': {'parent': 5}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e741ba8>, 'id': 12, 'title': 'Акдепинский этрап', 'parent_id': 9, 'slug': 'akdepinskii-etrap', 'lft': 109, 'rght': 110, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 9}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e741c18>, 'id': 13, 'title': 'Болдумсазский этрап', 'parent_id': 9, 'slug': 'boldumsazskii-etrap', 'lft': 111, 'rght': 112, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 9}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e741c88>, 'id': 14, 'title': 'Гёроглынский этрап', 'parent_id': 9, 'slug': 'gioroglynskii-etrap', 'lft': 113, 'rght': 114, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 9}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e741cf8>, 'id': 15, 'title': 'Губадагский этрап', 'parent_id': 9, 'slug': 'gubadagskii-etrap', 'lft': 115, 'rght': 116, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 9}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e741d68>, 'id': 16, 'title': 'Кёнеургенчский этрап', 'parent_id': 9, 'slug': 'kioneurgenchskii-etrap', 'lft': 117, 'rght': 118, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 9}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e741dd8>, 'id': 17, 'title': 'Рухубелентский этрап', 'parent_id': 9, 'slug': 'rukhubelentskii-etrap', 'lft': 119, 'rght': 120, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 9}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e741e48>, 'id': 18, 'title': 'Этрап имени Гурбансолтан-эдже', 'parent_id': 9, 'slug': 'etrap-imeni-gurbansoltan-edzhe', 'lft': 121, 'rght': 122, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 9}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e741eb8>, 'id': 19, 'title': 'Этрап имени Сапармурата Туркменбаши', 'parent_id': 9, 'slug': 'etrap-imeni-saparmurata-turkmenbashi', 'lft': 123, 'rght': 124, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 9}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e741f28>, 'id': 20, 'title': 'Этрап имени С.А. Ниязова', 'parent_id': 9, 'slug': 'etrap-imeni-s-a-niiazova', 'lft': 125, 'rght': 126, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 9}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e741f98>, 'id': 21, 'title': 'город Дашогуз', 'parent_id': 9, 'slug': 'gorod-dashoguz', 'lft': 127, 'rght': 128, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 9}}
+{'_state': <django.db.models.base.ModelState object at 0x7fa37e747048>, 'id': 22, 'title': 'город Кёнеургенч', 'parent_id': 9, 'slug': 'gorod-kioneurgench', 'lft': 129, 'rght': 130, 'tree_id': 1, 'level': 2, '_mptt_cached_fields': {'parent': 9}}
+
+
+все 1
+Транспорт 2
+Автомобили 172
+Мотоциклы и мототехника 173
+Грузовики и спецтехника 174
+Автобусы 176
+Автокраны 177
+Бульдозеры 178
+Грузовики 179
+Коммунальная техника 180
+Лёгкий транспорт 181
+Погрузчики 182
+Прицепы 183
+Сельхозтехника 184
+Строительная техника 185
+Экскаваторы 186
+Другие автотехники 187
+Запчасти и аксессуары 175
+Шины, диски и колёса 188
+Тюнинг 189
+Противоугонные устройства 190
+Инструменты 191
+Запчасти 192
+Аксессуары 193
+Аудио- и видеотехника 194
+Автокосметика и автохимия 195
+Другие аксессуары 196
+Недвижимость 3
+Квартиры 169
+Дома, дачи, коттеджи 170
+Земельные участки 171
+Работа 4
+Вакансии 167
+Резюме 168
+Личные веши 5
+Женский гардероб 129
+Женская верхняя одежда 161
+Женские головные уборы 162
+Женские обувы 163
+Платья и юбки 164
+Прочие веши 166
+Мужской гардероб 130
+Мужской обувь 139
+Пиджаки и костюмы 140
+Рубашки 141
+Свитеры и толстовки 142
+Спортивная одежда 143
+Головные уборы 144
+Верхняя одежда 145
+Прочие 146
+Брюки и джинсы 147
+Детский гардероб 131
+Детские головные уборы 154
+Детские верхняя одежда 156
+Детский обувь 157
+Детские аксессуары 158
+Детские штаны и шорты 159
+Другие веши 160
+Детские товары 132
+Коляски 148
+Игрушки и игры 149
+Подгузники и горшки 150
+Товары для учебы 151
+Здоровье и уход 152
+Другие товары 153
+Красота и здоровье 133
+Часы и украшения 134
+Бижутерия 135
+Часы 136
+Ювелирные изделия 137
+Аксессуары для мужчин и женщин 138
+Услуги 6
+Для дома и дачи 7
+Бытовая техника 90
+Для дома 105
+Швейные машины 125
+Утюги 126
+Стиральные машины 127
+Пылесосы 128
+Для индивидуального ухода 106
+Бритвы и триммеры 121
+Машинки для стрижки 122
+Фены и приборы для укладки 123
+Эпиляторы 124
+Для кухни 107
+Вытяжки 115
+Мелкая кухонная техника 116
+Микроволновые печи 117
+Плиты 118
+Посудомоечные машины 119
+Холодильники и морозильные камеры 120
+Климатическое оборудование 108
+Вентиляторы 110
+Кондиционеры 111
+Обогреватели 112
+Очистители воздуха 113
+Термометры и метеостанции 114
+Другие техники 109
+Мебель и интерьер 91
+Компьютерные столы и кресла 96
+Кухонные гарнитуры 97
+Освещение 98
+Кровати, диваны и кресла 99
+Подставки и тумбы 100
+Столы и стулья 101
+Текстиль и ковры 102
+Шкафы и комоды 103
+Другое 104
+Посуда и товары для кухни 92
+Продукты питания 93
+Ремонт и строительство 94
+Растения 95
+Бытовая электроника 8
+Аудио и видео 26
+Игры, приставки и программы 27
+Настольные компьютеры 28
+Ноутбуки 29
+Планшеты и электронные книги 30
+Телефоный 31
+Acer 63
+Alcatel 64
+ASUS 65
+BlackBerry 66
+BQ 67
+DEXP 68
+Fly 69
+Highscreen 70
+HTC 71
+Huawei 72
+iPhone 73
+Lenovo 74
+LG 75
+Meizu 76
+Micromax 77
+Microsoft 78
+Nokia 79
+Philips 80
+Prestigio 81
+Samsung 82
+Siemens 83
+Sony 84
+Vertu 85
+Xiaomi 86
+ZTE 87
+Другие марки 88
+Аксессуары и запчасти 89
+Товары для компютера 32
+Комплектующие и запчасти 34
+CD, DVD и Blu-ray приводы 45
+Блоки питания 46
+Видеокарты 47
+Жёсткие диски 48
+Звуковые карты 49
+Контроллеры 50
+Корпусы 51
+Материнские платы 52
+Оперативная память 53
+Процессоры 54
+Системы охлаждения 55
+Акустика 35
+Веб-камеры 36
+Джойстики и рули 37
+Клавиатуры и мыши 38
+Мониторы 39
+Переносные жёсткие диски 40
+Сетевое оборудование 41
+ТВ-тюнеры 42
+Флэшки и карты памяти 43
+Аксессуары для компьютера 44
+Фототехника 33
+Компактные фотоаппараты 56
+Зеркальные фотоаппараты 57
+Плёночные фотоаппараты 58
+Бинокли и телескопы 59
+Объективы 60
+Оборудование и аксессуары 61
+Принтеры, копиры и сканеры 62
+Хобби и отдых 9
+Велосипеды 22
+Книги и журналы 23
+Музыкальные инструменты 24
+Спорт и отдых 25
+Животные 10
+Собаки 14
+Кошки 15
+Птицы 16
+Аквариум 17
+Бараны 18
+Каровы 19
+Товары для животных 20
+Другие животные 21
+Для бизнеса 11
+Готовый бизнес 12
+Оборудование для бизнеса 13

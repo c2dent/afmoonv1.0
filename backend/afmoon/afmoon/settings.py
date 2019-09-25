@@ -21,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'i@^ppkhwt@7$(a%b4$u7u+y^ts(#aqa@g4yu(4zz)7ru%1(m9a'
-API_KEY = 'b2109766-cf53-11e9-ade6-0200cd936042'
+API_KEY = '55eb4d61-d3fe-11e9-ade6-0200cd936042'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -33,7 +33,11 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'main',
+    'mptt',
+    'django_cleanup',
+    'easy_thumbnails',
     'corsheaders',
+    'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -75,12 +79,6 @@ TEMPLATES = [
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
-# CORS_ORIGIN_WHITELIST = (
-#     'http://localhost:8080/',
-#     )
-# CORS_ORIGIN_REGEX_WHITELIST = (
-#     'http://localhost:8080/',
-#     )
 
 
 
@@ -125,12 +123,30 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
 REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+        ),
+    
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
         ),
     }
 
+THUMBNAIL_ALIASES = {
+    '': {
+        'default': {
+            'size' : (96,96),
+            'crop' : 'scale',
+        },
+    },
+}
+
+THUMBNAIL_BASEDIR = 'thumbnails'
 
 AUTH_USER_MODEL = 'main.User'
 # Internationalization
@@ -151,3 +167,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
