@@ -1,14 +1,14 @@
 from django.shortcuts import render
 from django.conf import settings
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import (AllowAny, IsAuthenticated)
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from .utilities import generation_token, get_phone, get_otp
 from rest_framework.response import Response
 from rest_framework import status
 from .models import User, BaseProduct, Region, Category
-from .serializers import UserSerializer, BaseProductSerializer
+from .serializers import UserSerializer, BaseProductSerializer, RegionSerializer, CategorySerializer
 import hashlib, os
-from .utilities import serializer_save
+from .middleware import serialzier_save
 
 
 @api_view(['POST'])
@@ -49,6 +49,31 @@ def profile(request):
 	serializer = UserSerializer(request.user)
 	return Response(serializer.data, status=status.HTTP_200_OK)
 
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny,])
+def region(request):
+	regions = Region.objects.filter(lft__gte=request.data.get('lft'), rght_lte=request.data.get('rght'))
+	serializer = RegionSerializer(regions, many=True)
+	return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def category(request):
+	if (request.query_params.get('tree_id')):
+		categories = Category.objects.filter(tree_id=request.query_params.get('tree_id'))
+	elif (request.query_params.get('level')):
+		categories = Category.objects.filter(level=request.query_params.get('level'))
+	elif (request.query_params.get('lft') or request.query_params.get('rght')):
+		categories = Category.objects.filter(lft__gte=request.query_params.get('lft'), rght_lte=request.query_params.get('rght'))
+	else:
+		serializer = request
+	serializer = CategorySerializer(categories, many=True)
+	return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 @api_view(['GET'])
 @permission_classes([AllowAny,])
 def by_region(request):
@@ -57,7 +82,7 @@ def by_region(request):
 	serializer = BaseProductSerializer(ad_list, many=True)
 	return Response(serializer.data, status=status.HTTP_200_OK)
 
-@api_view('POST')
+@api_view(['POST'])
 @permission_classes([IsAuthenticated,])
 def add_ad(request):
 	serializer = serializer_save(request)

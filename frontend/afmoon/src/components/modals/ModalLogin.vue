@@ -135,6 +135,10 @@ fieldset {
 	-webkit-transform: scale(1.1);
 	transform: scale(1.1);
 }
+.h35 {
+	height:31px;
+	padding:0px 7px;
+}
 #close_modal{
 	position:absolute;
 	top: 5px;

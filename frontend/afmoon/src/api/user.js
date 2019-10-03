@@ -19,5 +19,14 @@ export const User = {
             console.log(response)
             return response
         })
+    },
+    category () {
+        return HTTP.get('category/', { 
+            params: {
+                "level": "1"
+            }}).then(response => {
+                console.log(response.data)
+                return response.data
+            })
     }
 }

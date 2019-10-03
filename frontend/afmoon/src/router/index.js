@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Profile from '../components/Profile'
 import UserSettings from '../components/UserSettings'
 import UserAds from '../components/UserAds'
+import AddProduct from '../components/AddProduct'
 
 Vue.use(VueRouter)
 
@@ -21,6 +22,10 @@ export default new VueRouter({
                     component: UserAds
                 },
             ]
+        },
+        {
+            path: '/add-product',
+            component: AddProduct
         },
     ]
 })

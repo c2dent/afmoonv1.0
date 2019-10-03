@@ -53,7 +53,7 @@
 					<div class="col-md-1 d-none d-sm-none d-md-block" v-else>
 						<button class="btn btn-outline-success h35" @click="show_login">Войти</button>
 					</div>
-				</div>	
+				</div>
 			</div>
 		</nav>
 	</div>

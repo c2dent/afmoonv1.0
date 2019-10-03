@@ -1,10 +1,22 @@
 from rest_framework import serializers
-from .models import BaseProduct, User, Avtomobil, Apartment, House, Land, Vacancy, Resume, Second, Personals_clothes, Personals_shoes
+from .models import User, BaseProduct, Avtomobil, Apartment, House, Land, Vacancy, Resume, Second, Personals_clothes, Personals_shoes
+from .models import Region, Category
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model= User
         fields= ('avatar', 'nickname', 'phone_number', 'region', 'register_date')
+
+class RegionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Region
+        fields = ('title', 'id', 'lft', 'rght', 'tree_id', 'level')
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ('title', 'id', 'lft', 'rght', 'tree_id', 'level')
 
 class BaseProductSerializer(serializers.ModelSerializer):
     class Meta:
