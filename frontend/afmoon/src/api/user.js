@@ -20,12 +20,13 @@ export const User = {
             return response
         })
     },
-    category () {
-        return HTTP.get('category/', { 
-            params: {
-                "level": "1"
-            }}).then(response => {
-                console.log(response.data)
+    category (level=undefined, lft=undefined, rght=undefined) {
+        return HTTP.get('category/', {
+        params: {
+            "level": level,
+            "lft": lft,
+            "rght": rght
+        }}).then(response => {
                 return response.data
             })
     }

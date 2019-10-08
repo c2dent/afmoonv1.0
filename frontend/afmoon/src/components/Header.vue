@@ -100,4 +100,8 @@ img {
 	max-width:34px !important;
 	max-height: auto !important;
 }
+#wrap {
+	border-bottom: 1px solid rgba(73,73, 73, 0.3);
+	margin-bottom: 2px;
+}
 </style>

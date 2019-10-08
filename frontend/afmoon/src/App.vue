@@ -99,4 +99,10 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+.h33 {
+  height: 33px;
+}
+#wrap {
+  margin: 10px 0px;
+}
 </style>

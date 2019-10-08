@@ -62,11 +62,13 @@ def region(request):
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def category(request):
-	if (request.query_params.get('tree_id')):
+	if (request.query_params.get('lft') and request.query_params.get('rght') and request.query_params.get('level')):
+		categories = Category.objects.filter(lft__gte=request.query_params.get('lft'), rght__lte=request.query_params.get('rght'), level=request.query_params.get('level'))
+	elif (request.query_params.get('tree_id')):
 		categories = Category.objects.filter(tree_id=request.query_params.get('tree_id'))
 	elif (request.query_params.get('level')):
 		categories = Category.objects.filter(level=request.query_params.get('level'))
-	elif (request.query_params.get('lft') or request.query_params.get('rght')):
+	elif (request.query_params.get('lft') and request.query_params.get('rght')):
 		categories = Category.objects.filter(lft__gte=request.query_params.get('lft'), rght_lte=request.query_params.get('rght'))
 	else:
 		serializer = request
