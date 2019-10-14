@@ -147,7 +147,7 @@ class Avtomobil(BaseProduct):
 class Apartment(BaseProduct):
 	floors_in_house = models.IntegerField('Этажы в доме', default=0)
 	floor = models.IntegerField('этаж', default=0)
-	number_rooms = models.IntegerField('Количество комнат', default=1)
+	number_rooms = models.IntegerField('Количество комнат', choices=NUMBER_ROOMS)
 	total_area = models.IntegerField('Общая площадь', default=1)
 	rent_buy = models.BooleanField('Снять или Купить', default=True)
 

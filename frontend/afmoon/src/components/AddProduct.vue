@@ -1,89 +1,74 @@
 <template>
     <div>
-        <h3>Выберите категории</h3>
-        <div class="select">
-            <FormSelect :categories="cats_level_1" @cat_up="level_1" class="form_select"></FormSelect>
-            <FormSelect :categories="cats_level_2" v-if="element_level_2" @cat_up="level_2" class="form_select"></FormSelect>
-            <FormSelect :categories="cats_level_3" v-if="element_level_3" @cat_up="level_3" class="form_select"></FormSelect>
-            <FormSelect :categories="cats_level_4" v-if="element_level_4" class="form_select"></FormSelect>
-        </div>
-        <h3>Параметры</h3>
+        <ChoiceCategory @OnChange="OnChangeCategory" @OnSelect="OnSelectCategory"></ChoiceCategory>
         <div>
-            <BaseProduct></BaseProduct>
+            <PersonalsShoes v-if="category_select"></PersonalsShoes>
+        </div>
+        <ChoiceRegion v-if="category_select"></ChoiceRegion>
+        <div class="d-flex heading" v-if="category_select">
+            <h4>Контакты</h4>
+        </div>
+        <div class="d-flex" v-if="category_select">
+            <button class="btn btn-outline-success h35">Опубликовать</button>
         </div>
     </div>
 </template>
 
 <script>
-import FormSelect from './costom_elements/FormSelect'
 import { User } from '../api/user'
 import BaseProduct from './ProductModel/BaseProduct'
+import Apartment from './ProductModel/Apartment'
+import Avtomobil from './ProductModel/Avtomobil'
+import House from './ProductModel/House'
+import Land from './ProductModel/Land'
+import Vacancy from './ProductModel/Vacancy'
+import Resume from './ProductModel/Resume'
+import Second from './ProductModel/Second'
+import PersonalsClothes from './ProductModel/PersonalsClothes'
+import PersonalsShoes from './ProductModel/PersonalsShoes'
+import ChoiceCategory from './ProductModel/ChoiceCategory'
+import ChoiceRegion from './ProductModel/ChoiceRegion'
 export default {
     name: 'AddProduct',
     components : {
-        FormSelect,
         BaseProduct,
+        Apartment,
+        Avtomobil,
+        House,
+        Land,
+        Vacancy,
+        Resume,
+        Second,
+        PersonalsClothes,
+        PersonalsShoes,
+        ChoiceCategory,
+        ChoiceRegion,
     },
     data () {
         return {
-            cats_level_1: {},
-            cats_level_2: {},
-            cats_level_3: {},
-            cats_level_4: {},
-            element_level_2 : false,
-            element_level_3 : false,
-            element_level_4 : false,
+            category_select : false,
         }
     },
     methods: {
-        get_categories(level){
-            User.category(level).then(response => {
-                this.cats_level_1 = response
-            })
+        OnSelectCategory(){
+            this.category_select = true
         },
-        level_1(cat){
-            this.element_level_2 = false
-            this.element_level_3 = false
-            this.element_level_4 = false
-            if ((cat.rght - cat.lft) > 1 ) {
-                this.element_level_2 = true
-                User.category(cat.level+1, cat.lft, cat.rght).then( response => {
-                    this.cats_level_2 = response
-                })
-            }
-        },
-        level_2(cat){
-            this.element_level_3 = false
-            this.element_level_4 = false
-            if ((cat.rght - cat.lft) > 1) {
-                this.element_level_3 = true
-                User.category(cat.level+1, cat.lft, cat.rght).then(response => {
-                    this.cats_level_3 = response
-                })
-            }
-        },
-        level_3(cat){
-            this.element_level_4 = false
-            if((cat.rght - cat.lft) > 1){
-                this.element_level_4 = true
-                User.category(cat.level + 1, cat.lft, cat.rght).then(response => {
-                    this.cats_level_4 = response
-                })
-            }
+        OnChangeCategory(){
+            this.category_select = false
         }
     },
     beforeMount (){
-        this.get_categories('1')
     }
 }
 </script>
 
 <style>
-.select {
-    display: flex;
-    flex-wrap: wrap;
+.heading {
+    margin: 25px 0px;
+    font-weight: 600;
 }
-.form_select {
-    margin: 3px;
+.h35 {
+	height:31px;
+	padding:0px 7px;
 }
 </style>

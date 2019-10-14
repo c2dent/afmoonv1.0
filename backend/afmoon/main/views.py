@@ -9,6 +9,7 @@ from .models import User, BaseProduct, Region, Category
 from .serializers import UserSerializer, BaseProductSerializer, RegionSerializer, CategorySerializer
 import hashlib, os
 from .middleware import serialzier_save
+from .choieces import *
 
 
 @api_view(['POST'])
@@ -50,15 +51,6 @@ def profile(request):
 	return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-
-@api_view(['GET'])
-@permission_classes([AllowAny,])
-def region(request):
-	regions = Region.objects.filter(lft__gte=request.data.get('lft'), rght_lte=request.data.get('rght'))
-	serializer = RegionSerializer(regions, many=True)
-	return Response(serializer.data, status=status.HTTP_200_OK)
-
-
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def category(request):
@@ -74,6 +66,24 @@ def category(request):
 		serializer = request
 	serializer = CategorySerializer(categories, many=True)
 	return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def region(request):
+	if (request.query_params.get('lft') and request.query_params.get('rght') and request.query_params.get('level')):
+		regions = Region.objects.filter(lft__gte=request.query_params.get('lft'), rght__lte=request.query_params.get('rght'), level=request.query_params.get('level'))
+	elif (request.query_params.get('tree_id')):
+		regions = Region.objects.filter(tree_id=request.query_params.get('tree_id'))
+	elif (request.query_params.get('level')):
+		regions = Region.objects.filter(level=request.query_params.get('level'))
+	elif (request.query_params.get('lft') and request.query_params.get('rght')):
+		regions = Region.objects.filter(lft__gte=request.query_params.get('lft'), rght_lte=request.query_params.get('rght'))
+	else:
+		serializer = request
+	serializer = RegionSerializer(regions, many=True)
+	return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 
 @api_view(['GET'])
@@ -93,5 +103,28 @@ def add_ad(request):
 		return Response(serializer.data, status=status.HTTP_201_CREATED)
 	return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET'])
+@permission_classes([AllowAny,])
+def get_choices(request):
+	available_dicts = {
+		"NUMBER_ROOMS": NUMBER_ROOMS,
+		"MARK": MARK,
+		"GEAR_SHIFT":GEAR_SHIFT,
+		"BODY_TYPE": BODY_TYPE,
+		"ENGINE_TYPE": ENGINE_TYPE,
+		"DRIVE_UNIT": DRIVE_UNIT,
+		"SCHEDULE": SCHEDULE,
+		"WORK_EXPERIENCE": WORK_EXPERIENCE,
+		"SIZE_CLOTHES": SIZE_CLOTHES,
+		"SIZE_SHOES": SIZE_SHOES,
+	}
+	choices = request.query_params.get('choices')
+	if choices is not None and choices in available_dicts:
+		result_list = []
+		chosen_dict = available_dicts[choices]
+		result_list = chosen_dict
+		return Response(result_list, status=status.HTTP_200_OK)
+	else:
+		return Response({'Error': 'Empty or invalid choice given'}, status=status.HTTP_400_BAD_REQUEST)
 
 # Create your views here.

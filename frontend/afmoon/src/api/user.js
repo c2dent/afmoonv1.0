@@ -29,5 +29,30 @@ export const User = {
         }}).then(response => {
                 return response.data
             })
+    },
+    region (level=undefined, lft=undefined, rght=undefined) {
+        return HTTP.get('region/', {
+        params: {
+            "level": level,
+            "lft": lft,
+            "rght": rght
+        }}).then(response => {
+                return response.data
+            })
+    },
+    get_choices (choice){
+        return  HTTP.get('choices/', {
+            params: {
+                "choices": choice
+            }
+        }).then(response => {
+            return response.data
+        })
+    },
+    add_ad(data){
+        return HTTP.post('add_ad/', data).then(response => {
+            console.log(response)
+            return response
+        })
     }
 }
