@@ -6,8 +6,6 @@ from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 from .utilities import get_timestamp_path
 from .choieces import *
-from slugify import slugify
-
 
 class UserManager(BaseUserManager):
 	def create_user(self, phone_number):
@@ -98,22 +96,18 @@ class Category(MPTTModel):
 		return self.title
 
 class BaseProduct(models.Model):
-	title = models.CharField("Названия", max_length=50)
+	title = models.CharField("Названия", max_length=40)
 	add_date = models.DateField("Дата добавления", auto_now_add=True)
 	description = models.TextField("Описания", blank=True, null=True)
-	image = models.ImageField("Изображения", blank=True, upload_to=get_timestamp_path)
+	image = models.ImageField("Изображения", blank=True, upload_to=get_timestamp_path, null=True)
 	price = models.FloatField("Цена", blank=True, null=True)
 	is_active = models.BooleanField("Is_Active", default=True, db_index=True)
 	views = models.IntegerField("Просмотрый", default=0)
-	category = models.ForeignKey('Category', related_name='ad', on_delete=models.CASCADE, blank=True)
-	region = models.ForeignKey('Region', related_name='ad', on_delete=models.CASCADE, blank=True)
+	category = models.ForeignKey('Category', related_name='ad', on_delete=models.PROTECT, blank=True)
+	region = models.ForeignKey('Region', related_name='ad', on_delete=models.PROTECT, blank=True)
 	user = models.ForeignKey('user', verbose_name="Владелес", on_delete=models.CASCADE, related_name='ad')
 	slug = models.SlugField(max_length=50, blank=True)
 
-	def save(self, *args, **kwargs):
-		super(BaseProduct, self).save(*args, **kwargs)
-		self.nickname = slugify(self.title) + str(self.id)
-		super(BaseProduct, self).save(*args, **kwargs)
 
 	def delete(self, *args, **kwargs):
 		for ai in self.additionalimage_set.all():
@@ -126,7 +120,7 @@ class BaseProduct(models.Model):
 		ordering = ['-add_date']
 
 class AdditonalImage(models.Model):
-	baseproduct = models.ForeignKey("BaseProduct", verbose_name="Объявления", on_delete=models.CASCADE)
+	baseproduct = models.ForeignKey("BaseProduct", verbose_name="Объявления", on_delete=models.CASCADE, related_name='images')
 	image = models.ImageField(upload_to=get_timestamp_path, verbose_name='Изображения')
 
 	class Meta:
@@ -168,6 +162,9 @@ class Resume(Vacancy):
 
 class Second(BaseProduct):
 	second_hand = models.BooleanField("Новый или б/у", default=True)
+
+	def __str__(self):
+		return self.title
 
 class Personals_clothes(Second):
 	size = models.CharField("Размер", max_length=10, choices=SIZE_CLOTHES)

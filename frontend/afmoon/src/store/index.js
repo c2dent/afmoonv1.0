@@ -95,6 +95,9 @@ const actions =  {
                 context.commit(SET_PROFILE, resp.data)
             }
         })
+    },
+    add_ad (context,data) {
+        User.add_ad(data)
     }
 }
 export default new Vuex.Store({

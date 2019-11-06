@@ -5,7 +5,7 @@
                 <h4>Место встречи</h4>
             </div>
             <div class="wrap_categor">
-                <div v-for="element_array in element_arrays" v-bind:value="element_array">
+                <div v-for="element_array in element_arrays" v-bind:key="element_array.id" :value="element_array">
                     <FormSelect :select_array="element_array" @OnSelect="OnSelect" class="form_select"></FormSelect>
                 </div>
             </div>
@@ -40,6 +40,9 @@ export default {
             if (element.rght - element.lft > 1){
                 this.element_arrays.splice(level, this.element_arrays.length - level)
                 this.get_regions(element.level +1, element.lft, element.rght)
+                this.$emit('ChangeSelect')
+            } else {
+                this.$emit('OnSelect', element)
             }
         }
     },

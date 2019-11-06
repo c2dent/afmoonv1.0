@@ -4,7 +4,7 @@ from django.contrib.auth.models import Group
 from .forms import UserChangeForm, UserCreationForm, LoginForm
 from mptt.admin import MPTTModelAdmin
 
-from .models import User, Region, Category, BaseProduct, Apartment, Avtomobil
+from .models import User, Region, Category, BaseProduct, Apartment, Avtomobil, AdditonalImage
 from .models import House, Land, Vacancy, Resume, Second, Personals_clothes, Personals_shoes
 
 class UserAdmin(UserAdmin):
@@ -44,6 +44,9 @@ class UserAdmin(UserAdmin):
 	ordering = ('phone_number',)
 	filter_horizontal = ()
 
+class AdditonalImageAdmin(admin.ModelAdmin):
+	fields = ['image', 'baseproduct']
+
 class RegionAdmin(MPTTModelAdmin):
 	fields = ['title', 'parent', 'slug']
 
@@ -53,11 +56,21 @@ class CategoryAdmin(MPTTModelAdmin):
 class BaseProductAdmin(admin.ModelAdmin):
 	fields = ['title', 'price', 'image', 'region', 'slug', 'description', 'category', 'views', 'is_active', 'user']
 
+	list_display = [
+		'title',
+		'price',
+		'id'
+	]
+
+	search_fields = ('slug',)
+	ordering = ('slug',)
+	filter_horizontal = ()
+
 class AvtomobilAdmin(BaseProductAdmin):
 	fields = BaseProductAdmin.fields + ['mark_model', 'is_new', 'year_issue', 'gear_shift', 'body_type', 'engine_type', 'mileage', 'drive_unit', 'condition']
 
 class ApartmentAdmin(BaseProductAdmin):
-	fields = BaseProductAdmin.fields + ['floors_in_house', 'floor', 'number_rooms', 'total_area', 'rent_buy']
+	fields = BaseProductAdmin.fields + ['floors_in_house', 'floor', 'number_rooms', 'total_area' ,'rent_buy']
 
 class HouseAdmin(BaseProductAdmin):
 	fields = BaseProductAdmin.fields + ['house_area', 'land_area']
@@ -74,6 +87,17 @@ class ResumeAdmin(VacancyAdmin):
 class SecondAdmin(BaseProductAdmin):
 	fields = BaseProductAdmin.fields + ['second_hand']
 
+	list_display = [
+		'title',
+		'price',
+		'id',
+		'baseproduct_ptr_id'
+	]
+
+	search_fields = ('slug',)
+	ordering = ('slug',)
+	filter_horizontal = ()
+
 class PersonalsClothesAdmin(SecondAdmin):
 	fields = SecondAdmin.fields + ['size']
 
@@ -84,6 +108,7 @@ class PersonalsShoesAdmin(SecondAdmin):
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Region, RegionAdmin)
 admin.site.register(BaseProduct, BaseProductAdmin)
+admin.site.register(AdditonalImage, AdditonalImageAdmin)
 admin.site.register(Avtomobil, AvtomobilAdmin)
 admin.site.register(Apartment, ApartmentAdmin)
 admin.site.register(House, HouseAdmin)

@@ -1,11 +1,11 @@
 from rest_framework import serializers
 from .models import User, BaseProduct, Avtomobil, Apartment, House, Land, Vacancy, Resume, Second, Personals_clothes, Personals_shoes
-from .models import Region, Category
+from .models import Region, Category, AdditonalImage
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model= User
-        fields= ('avatar', 'nickname', 'phone_number', 'region', 'register_date')
+        fields= ('avatar', 'nickname', 'phone_number', 'region', 'register_date','id')
 
 class RegionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -23,10 +23,15 @@ class BaseProductSerializer(serializers.ModelSerializer):
         model = BaseProduct
         fields = ('title', 'price', 'image', 'region', 'add_date', 'slug')
 
+class AdditonalImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AdditonalImage
+        fields = ('baseproduct', 'image')
+
 class CommonProductDetail(BaseProductSerializer):
     class Meta:
         model = BaseProduct
-        fields = (BaseProductSerializer.Meta.fields + ('description', 'category', 'views', 'is_acrive', 'user'))
+        fields = (BaseProductSerializer.Meta.fields + ('description', 'category', 'views', 'is_active', 'user'))
 
 class AvtomobilSerialzier(CommonProductDetail):
     class Meta:
@@ -72,3 +77,8 @@ class PersonalsShoesSerializer(SecondSerializer):
     class Meta:
         model = Personals_shoes
         fields = (SecondSerializer.Meta.fields + ('size',))
+
+class TestProductSerialzier(serializers.ModelSerializer):
+    class Meta:
+        model = BaseProduct
+        fields = ('title', 'description', 'price', 'image', 'region', 'category', 'user')

@@ -6,7 +6,7 @@
                     <span>Описания</span>
                 </div>
                 <div class="col-8 d-flex">
-                    <textarea name="" id="" cols="30" rows="8" class="form-control mr-sm-2 w-100 input-group-sm">
+                    <textarea name="" id="" cols="30" rows="8" class="form-control mr-sm-2 w-100 input-group-sm" v-model="description" @change="get_description">
                     </textarea>
                 </div>
                 <div class="col-2">
@@ -20,6 +20,16 @@
 <script>
 export default {
     name: 'DescriptionText',
+    data(){
+        return {
+            description:''
+        }
+    },
+    methods: {
+        get_description(){
+            this.$emit('ChangeDescription', this.description)
+        }
+    }
 }
 </script>
 

@@ -5,10 +5,12 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from .utilities import generation_token, get_phone, get_otp
 from rest_framework.response import Response
 from rest_framework import status
-from .models import User, BaseProduct, Region, Category
-from .serializers import UserSerializer, BaseProductSerializer, RegionSerializer, CategorySerializer
+from .models import User, BaseProduct, Region, Category, AdditonalImage
+from .serializers import UserSerializer, BaseProductSerializer, RegionSerializer, CategorySerializer, AdditonalImageSerializer
 import hashlib, os
-from .middleware import serialzier_save
+from slugify import slugify
+from random import randint
+from .middleware import serializer_save
 from .choieces import *
 
 
@@ -99,9 +101,21 @@ def by_region(request):
 def add_ad(request):
 	serializer = serializer_save(request)
 	if serializer.is_valid():
-		serializer.save()
+		slug = slugify(serializer.validated_data['title']) + '-' + str(randint(1000,9999))
+		serializer.save(slug=slug)
+		product = BaseProduct.objects.get(slug=slug)
+		images = dict((request.data).lists())['images[]']
+		for img in images:
+			AdditonalImage.objects.create(baseproduct=product, image=img)
 		return Response(serializer.data, status=status.HTTP_201_CREATED)
-	return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+	return Response(serializer.errors)
+
+@api_view(['POST'])
+@permission_classes([AllowAny,])
+def test(request):
+	files = request.FILES
+	if (files):
+		return Response(files, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 @permission_classes([AllowAny,])
@@ -126,5 +140,6 @@ def get_choices(request):
 		return Response(result_list, status=status.HTTP_200_OK)
 	else:
 		return Response({'Error': 'Empty or invalid choice given'}, status=status.HTTP_400_BAD_REQUEST)
+
 
 # Create your views here.

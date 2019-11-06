@@ -1,11 +1,9 @@
 <template>
     <div>
-        <form action="#">
-            <select @change="onChange()" v-model="select_element">
-                <option value="" disabled selected hidden>Выберите</option>
-                <option v-for="element in select_array" v-bind:value="element">{{ element.title }}</option>
-            </select>
-        </form>
+        <select @change="onChange()" v-model="select_element">
+            <option value="" disabled selected hidden>Выберите</option>
+            <option v-for="element in select_array" v-bind:key="element.id" :value="element">{{ element.title }}</option>
+        </select>
     </div>
 </template>
 

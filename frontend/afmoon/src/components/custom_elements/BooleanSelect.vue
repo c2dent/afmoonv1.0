@@ -7,7 +7,7 @@
                 </div>
                 <div class="d-flex col-8">
                     <div v-for="val in values" class="wrap_input" v-bind:key="val">
-                        <input type="radio" v-bind:value="val" v-model="boolean" :id="'group' + val">
+                        <input type="radio" v-bind:value="val" v-model="radio_boolean" :id="'group' + val" @change="OnChange">
                         <label :for="'group' + val">{{ val }}</label>
                     </div>
                 </div>
@@ -28,7 +28,12 @@ export default {
     },
     data() {
         return {
-            boolean: '',
+            radio_boolean: false,
+        }
+    },
+    methods: {
+        OnChange(){
+            this.$emit('selected_redio', this.radio_boolean)
         }
     }
 }

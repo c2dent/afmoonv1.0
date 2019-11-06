@@ -5,7 +5,7 @@
                 <h4>Выберите категории</h4>
             </div>
             <div class="wrap_categor">
-                <div v-for="element_array in element_arrays" v-bind:value="element_array">
+                <div v-for="element_array in element_arrays" v-bind:key="element_array.id" :value="element_array">
                     <FormSelect :select_array="element_array" @OnSelect="OnSelect" class="form_select"></FormSelect>
                 </div>
             </div>
@@ -38,11 +38,11 @@ export default {
         OnSelect(element){
             const level = element.level
             if (element.rght - element.lft > 1){
-                this.$emit('OnChange')
+                this.$emit('OnChangeCategory')
                 this.element_arrays.splice(level, this.element_arrays.length - level)
                 this.get_categories(element.level +1, element.lft, element.rght)
             } else {
-                this.$emit('OnSelect')
+                this.$emit('OnSelectCategory', element)
             }
         }
     },

@@ -18,7 +18,7 @@
                                     <label for="file-input">
                                         <img src="../../static/icon/add_photo.png" class="add-img"/>
                                     </label>
-                                    <input id="file-input" type="file" accept="image/*" @change="fileChange($event)"/>
+                                    <input id="file-input" type="file" multiple accept="image/*" @change="fileChange($event)"/>
                                 </div>
                             </div>
                         </div>
@@ -40,17 +40,24 @@ export default {
     data(){
         return {
             images: [],
+            imgs: [],
         }
     },
     methods: {
         fileChange(evt) {
-            const file = evt.target.files[0];
-            this.images.push(URL.createObjectURL(file));
+            for(let i = 0; i<evt.target.files.length; i++){
+                const file = evt.target.files[i];
+                this.images.push(URL.createObjectURL(file));
+                this.imgs.push(file);
+            }
+            this.$emit('ChangeImages', this.imgs)
         },
         DeleteImg(imge){
             var index = this.images.indexOf(imge);
             if (index > -1) {
                 this.images.splice(index, 1);
+                this.imgs.splice(index, 1);
+            this.$emit('ChangeImages', this.imgs)
             }
         }
     }

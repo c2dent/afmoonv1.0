@@ -3,16 +3,15 @@
         <div class="d-flex heading">
             <h4>Параметры</h4>
         </div>
-        <TitleInput></TitleInput>
-        <SelectNumber :hint="hint_floors" :numbers="floor"></SelectNumber>
-        <SelectNumber :hint="hint_floor" :numbers="floor"></SelectNumber>
-        <NumberInput :hint="hint_area"></NumberInput>
-        <NumberInput :hint="hint_area"></NumberInput>
-        <Choices :hint="number_in_room" :choices="NUMBER_ROOMS" :index_array="1"></Choices>
-        <BooleanSelect :hint="type_buy" :values="vaules"></BooleanSelect>
-        <DescriptionText></DescriptionText>
-        <PriceInput></PriceInput>
-        <InputImage></InputImage>
+        <TitleInput @ChangeInput="get_title"></TitleInput>
+        <SelectNumber :hint="hint_floors" :numbers="floor" @selected_number="get_hint_floors"></SelectNumber>
+        <SelectNumber :hint="hint_floor" :numbers="floor" @selected_number="get_hint_floor"></SelectNumber>
+        <NumberInput :hint="hint_area" @change_number_input="get_total_area"></NumberInput>
+        <Choices :hint="number_in_room" :choices="NUMBER_ROOMS" :index_array="1" @last_choices="get_number_room"></Choices>
+        <BooleanSelect :hint="type_buy" :values="vaules" @selected_radio="selected_type_bay"></BooleanSelect>
+        <DescriptionText @ChangeInput="get_description"></DescriptionText>
+        <PriceInput @ChangePrice="get_price"></PriceInput>
+        <InputImage @ChangeImages="get_images"></InputImage>
     </div>
 </template>
 
@@ -50,14 +49,106 @@ export default {
             NUMBER_ROOMS: null,
         }
     },
+    computed: {
+        data () {
+            return new FormData();
+        }
+    },
     methods: {
         get_number_rooms(){
             User.get_choices("NUMBER_ROOMS").then(response => {
                 this.NUMBER_ROOMS = response
             })
-        }
+        },
+        get_number_room(choice){
+            if (this.data.has('number_rooms')) {
+                this.data.set('number_rooms', choice)
+                this.$emit('ChangeData', this.data)
+            } else {
+                this.data.append('number_rooms', choice)
+                this.$emit('ChangeData', this.data)
+            }
+        },
+        selected_type_bay(type_buy){
+            if (this.data.has('rent_buy')) {
+                this.data.set('rent_buy', type_buy)
+                this.$emit('ChangeData', this.data)
+            } else {
+                this.data.append('rent_buy', type_buy)
+                this.$emit('ChangeData', this.data)
+            }
+        },
+        get_total_area(number) {
+            if (this.data.has('total_area')) {
+                this.data.set('total_area', number)
+                this.$emit('ChangeData', this.data)
+            } else {
+                this.data.append('total_area', number)
+                this.$emit('ChangeData', this.data)
+            }
+        },
+        get_title(title){
+            if (this.data.has('title')) {
+                this.data.set('title', title)
+                this.$emit('ChangeData', this.data)
+            } else {
+                this.data.append('title', title)
+                this.$emit('ChangeData', this.data)
+            }
+        },
+        get_description(description){
+            if (this.data.has('description')) {
+                this.data.set('description', description)
+                this.$emit('ChangeData', this.data)
+            } else {
+                this.data.append('description', description)
+                this.$emit('ChangeData', this.data)
+            }
+        },
+        get_price(price){
+            if (this.data.has('price')) {
+                this.data.set('price', price)
+                this.$emit('ChangeData', this.data)
+            } else {
+                this.data.append('price', price)
+                this.$emit('ChangeData', this.data)
+            }
+        },
+        get_hint_floor(number) {
+            if (this.data.has('floor')) {
+                this.data.set('floor', number)
+                this.$emit('ChangeData', this.data)
+            } else {
+                this.data.append('floor', number)
+                this.$emit('ChangeData', this.data)
+            }
+        },
+        get_hint_floors(number) {
+            if (this.data.has('floors_in_house')) {
+                this.data.set('floors_in_house', number)
+                this.$emit('ChangeData', this.data)
+            } else {
+                this.data.append('floors_in_house', number)
+                this.$emit('ChangeData', this.data)
+            }
+        },
+        get_images(images){
+            this.delete_image()
+            this.add_image(images)
+            this.$emit('ChangeData', this.data)
+        },
+        delete_image(){
+            this.data.delete('images[]')
+        },
+        add_image(images){
+            for(let i=0; i<images.length; i++){
+                this.data.append('images[]', images[i], images[i].name)
+            }
+        },
+
     },
     beforeMount () {
+        this.get_number_rooms()
     }
 }
 </script>

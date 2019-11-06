@@ -4,7 +4,6 @@ import { HTTP } from './common'
 export const User = {
     get_sms (phone_number) {
         return HTTP.post('accounts/send-sms/', { 'phone_number': phone_number }).then(response => {
-            console.log(response.data)
             return response
         })
     },
@@ -16,7 +15,6 @@ export const User = {
     },
     profile () {
         return HTTP.get('accounts/profile/').then(response => {
-            console.log(response)
             return response
         })
     },
@@ -50,7 +48,7 @@ export const User = {
         })
     },
     add_ad(data){
-        return HTTP.post('add_ad/', data).then(response => {
+        return HTTP.post('add-ad/', data).then(response => {
             console.log(response)
             return response
         })

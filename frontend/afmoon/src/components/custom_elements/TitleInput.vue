@@ -6,7 +6,7 @@
                     <span>Названия</span>
                 </div>
                 <div class="col-8 d-flex">
-                    <input type="text" name="title" class="form-control mr-sm-2 w-100 input-group-sm h33">
+                    <input type="text" name="title" class="form-control mr-sm-2 w-100 input-group-sm h33" v-model="title_input" @change="OnChange" required>
                 </div>
                 <div class="col-2">
                 </div>
@@ -18,6 +18,16 @@
 <script>
 export default {
     name: 'TitleInput',
+    data(){
+        return {
+            title_input: ''
+        }
+    },
+    methods: {
+        OnChange(){
+            this.$emit('ChangeInput', this.title_input)
+        }
+    }
 }
 </script>
 
