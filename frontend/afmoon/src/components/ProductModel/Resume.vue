@@ -3,14 +3,14 @@
         <div class="d-flex heading">
             <h4>Параметры</h4>
         </div>
-        <TitleInput></TitleInput>
-        <Choices :hint="schedule_hint" :choices="SCHEDULE" :index_array="1"></Choices>
-        <Choices :hint="work_experience_hint" :choices="WORK_EXPERIENCE" :index_array="1"></Choices>
-        <NumberInput :hint="age_hint"></NumberInput>
-        <BooleanSelect :hint="gender_hint" :values="gender"></BooleanSelect>
-        <DescriptionText></DescriptionText>
-        <PriceInput></PriceInput>
-        <InputImage></InputImage>
+        <Choices :hint="schedule_hint" :choices="SCHEDULE" :index_array="1" @last_choices="get_schedule_choice"></Choices>
+        <Choices :hint="work_experience_hint" :choices="WORK_EXPERIENCE" :index_array="1" @last_choices="get_work_experience_choice"></Choices>
+        <NumberInput :hint="age_hint" @change_number_input="get_age"></NumberInput>
+        <BooleanSelect :hint="gender_hint" :values="gender" @selected_radio="selected_gender"></BooleanSelect>
+        <TitleInput @ChangeInput="get_title"></TitleInput>
+        <DescriptionText @ChangeDescription="get_description"></DescriptionText>
+        <PriceInput @ChangePrice="get_price"></PriceInput>
+        <InputImage @ChangeImages="get_images"></InputImage>
     </div>
 </template>
 
@@ -34,6 +34,11 @@ export default {
         Choices,
         BooleanSelect,
     },
+    computed: {
+        data () {
+            return new FormData();
+        }
+    },
     data(){
         return {
             schedule_hint: 'График работы',
@@ -55,7 +60,80 @@ export default {
             User.get_choices("WORK_EXPERIENCE").then(response => {
                 this.WORK_EXPERIENCE = response
             })
-        }
+        },
+        get_title(title){
+            if (this.data.has('title')) {
+                this.data.set('title', title)
+                this.$emit('ChangeData', this.data)
+            } else {
+                this.data.append('title', title)
+                this.$emit('ChangeData', this.data)
+            }
+        },
+        get_description(description){
+            if (this.data.has('description')) {
+                this.data.set('description', description)
+                this.$emit('ChangeData', this.data)
+            } else {
+                this.data.append('description', description)
+                this.$emit('ChangeData', this.data)
+            }
+        },
+        get_price(price){
+            if (this.data.has('price')) {
+                this.data.set('price', price)
+                this.$emit('ChangeData', this.data)
+            } else {
+                this.data.append('price', price)
+                this.$emit('ChangeData', this.data)
+            }
+        },
+        get_images(images){
+            this.data.delete('images[]')
+            this.add_image(images)
+            this.$emit('ChangeData', this.data)
+        },
+        add_image(images){
+            for(let i=0; i<images.length; i++){
+                this.data.append('images[]', images[i], images[i].name)
+            }
+        },
+        get_schedule_choice(choice){
+            if (this.data.has('schedule')) {
+                this.data.set('schedule', choice[0])
+                this.$emit('ChangeData', this.data)
+            } else {
+                this.data.append('schedule', choice[0])
+                this.$emit('ChangeData', this.data)
+            }
+        },
+        get_work_experience_choice(choice){
+            if (this.data.has('work_experience')) {
+                this.data.set('work_experience', choice[0])
+                this.$emit('ChangeData', this.data)
+            } else {
+                this.data.append('work_experience', choice[0])
+                this.$emit('ChangeData', this.data)
+            }
+        },
+        get_age(number) {
+            if (this.data.has('age')) {
+                this.data.set('age', number)
+                this.$emit('ChangeData', this.data)
+            } else {
+                this.data.append('age', number)
+                this.$emit('ChangeData', this.data)
+            }
+        },
+        selected_gender(type_buy){
+            if (this.data.has('gender')) {
+                this.data.set('gender', type_buy)
+                this.$emit('ChangeData', this.data)
+            } else {
+                this.data.append('gender', type_buy)
+                this.$emit('ChangeData', this.data)
+            }
+        },
     },
     beforeMount() {
         this.get_schedule()

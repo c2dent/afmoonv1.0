@@ -14,6 +14,7 @@
                 <div id="user-nav" class="d-flex flex-column">
                     <router-link to="/profile/settings">Настройки</router-link>
                     <router-link to="/profile/ads">Мои объявлении</router-link>
+                    <router-link to="/add-product">Подать объявление</router-link>
                     <button class="btn btn-outline-danger mt-3 h31">Выйти</button>
                 </div>
             </div>

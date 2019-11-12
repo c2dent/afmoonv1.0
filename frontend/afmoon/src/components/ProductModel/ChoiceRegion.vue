@@ -57,4 +57,7 @@ export default {
     display: flex;
     flex-wrap: wrap;
 }
+.form_select {
+    padding-left: 3px;
+}
 </style>

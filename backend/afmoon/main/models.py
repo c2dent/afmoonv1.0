@@ -97,7 +97,7 @@ class Category(MPTTModel):
 
 class BaseProduct(models.Model):
 	title = models.CharField("Названия", max_length=40)
-	add_date = models.DateField("Дата добавления", auto_now_add=True)
+	add_date = models.DateTimeField("Дата добавления", auto_now_add=True)
 	description = models.TextField("Описания", blank=True, null=True)
 	image = models.ImageField("Изображения", blank=True, upload_to=get_timestamp_path, null=True)
 	price = models.FloatField("Цена", blank=True, null=True)
@@ -128,14 +128,14 @@ class AdditonalImage(models.Model):
 		verbose_name = 'Дополнительная иллюстрация'
 
 class Avtomobil(BaseProduct):
-	mark_model = models.CharField('Марка и модель', max_length=10, choices=MARK)
+	mark_model = models.IntegerField('Марка и модель', choices=MARK)
 	is_new = models.BooleanField("Новые или с пробегом", default=False)
 	year_issue = models.IntegerField("Год выпуска")
-	gear_shift = models.CharField('Коробка передач', max_length=10, choices=GEAR_SHIFT)
-	body_type = models.CharField('Тип кузова', max_length=10, choices=BODY_TYPE)
-	engine_type = models.CharField('Тип двигателя', max_length=10, choices=ENGINE_TYPE)
+	gear_shift = models.IntegerField('Коробка передач', choices=GEAR_SHIFT)
+	body_type = models.IntegerField('Тип кузова', choices=BODY_TYPE)
+	engine_type = models.IntegerField('Тип двигателя', choices=ENGINE_TYPE)
 	mileage = models.IntegerField('Пробег')
-	drive_unit = models.CharField('Привод', max_length=10, choices=DRIVE_UNIT)
+	drive_unit = models.IntegerField('Привод', choices=DRIVE_UNIT)
 	condition = models.BooleanField('Состояние', default=True)
 
 class Apartment(BaseProduct):
@@ -153,8 +153,8 @@ class Land(BaseProduct):
 	land_area = models.IntegerField('Площадь', default=1)
 
 class Vacancy(BaseProduct):
-	schedule = models.CharField('График работы', max_length=10, choices=SCHEDULE)
-	work_experience = models.CharField('Опыть работы', max_length=10, choices=WORK_EXPERIENCE)
+	schedule = models.IntegerField('График работы', choices=SCHEDULE)
+	work_experience = models.IntegerField('Опыть работы', choices=WORK_EXPERIENCE)
 
 class Resume(Vacancy):
 	gender = models.BooleanField("Пол", default=True)
@@ -167,9 +167,9 @@ class Second(BaseProduct):
 		return self.title
 
 class Personals_clothes(Second):
-	size = models.CharField("Размер", max_length=10, choices=SIZE_CLOTHES)
+	size = models.IntegerField("Размер", choices=SIZE_CLOTHES)
 
 class Personals_shoes(Second):
-	size = models.CharField("Размер", max_length=10, choices=SIZE_SHOES)
+	size = models.IntegerField("Размер", choices=SIZE_SHOES)
 
 # Create your models here.

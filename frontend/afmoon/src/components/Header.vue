@@ -7,7 +7,7 @@
 						<div class="container">
 							<div class="row">
 								<div class="col-4 col-sm-4 col-md-6 order-2 order-sm-2 order-md-1 d-flex align-self-center justify-content-center justify-content-md-start">
-									<a class="navbar-brand" href="#">Logo</a>
+									<router-link class="navbar-brand" to="/turkmenistan">Logo</router-link>
 								</div>
 								<div class="d-none d-sm-none d-md-block col-md-6 order-md-2">
 									<button class="btn btn-outline-success h35" data-toggle="modal" data-target="#Filter">
@@ -102,6 +102,6 @@ img {
 }
 #wrap {
 	border-bottom: 1px solid rgba(73,73, 73, 0.3);
-	margin-bottom: 2px;
+	margin-bottom: 25px;
 }
 </style>

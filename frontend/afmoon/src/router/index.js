@@ -4,6 +4,7 @@ import Profile from '../components/Profile'
 import UserSettings from '../components/UserSettings'
 import UserAds from '../components/UserAds'
 import AddProduct from '../components/AddProduct'
+import AddList from '../components/AddList'
 
 Vue.use(VueRouter)
 
@@ -26,6 +27,10 @@ export default new VueRouter({
         {
             path: '/add-product',
             component: AddProduct
+        },
+        {
+            path:'/turkmenistan',
+            component: AddList
         },
     ]
 })

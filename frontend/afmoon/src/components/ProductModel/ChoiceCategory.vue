@@ -37,9 +37,9 @@ export default {
         },
         OnSelect(element){
             const level = element.level
+            this.element_arrays.splice(level, this.element_arrays.length - level)
             if (element.rght - element.lft > 1){
                 this.$emit('OnChangeCategory')
-                this.element_arrays.splice(level, this.element_arrays.length - level)
                 this.get_categories(element.level +1, element.lft, element.rght)
             } else {
                 this.$emit('OnSelectCategory', element)
@@ -56,5 +56,8 @@ export default {
 .wrap_categor {
     display: flex;
     flex-wrap: wrap;
+}
+.form_select {
+    padding-left: 3px;
 }
 </style>

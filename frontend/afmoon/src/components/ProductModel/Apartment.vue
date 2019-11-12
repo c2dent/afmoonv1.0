@@ -9,7 +9,7 @@
         <NumberInput :hint="hint_area" @change_number_input="get_total_area"></NumberInput>
         <Choices :hint="number_in_room" :choices="NUMBER_ROOMS" :index_array="1" @last_choices="get_number_room"></Choices>
         <BooleanSelect :hint="type_buy" :values="vaules" @selected_radio="selected_type_bay"></BooleanSelect>
-        <DescriptionText @ChangeInput="get_description"></DescriptionText>
+        <DescriptionText @ChangeDescription="get_description"></DescriptionText>
         <PriceInput @ChangePrice="get_price"></PriceInput>
         <InputImage @ChangeImages="get_images"></InputImage>
     </div>
@@ -62,10 +62,10 @@ export default {
         },
         get_number_room(choice){
             if (this.data.has('number_rooms')) {
-                this.data.set('number_rooms', choice)
+                this.data.set('number_rooms', choice[0])
                 this.$emit('ChangeData', this.data)
             } else {
-                this.data.append('number_rooms', choice)
+                this.data.append('number_rooms', choice[0])
                 this.$emit('ChangeData', this.data)
             }
         },
@@ -133,12 +133,9 @@ export default {
             }
         },
         get_images(images){
-            this.delete_image()
+            this.data.delete('images[]')
             this.add_image(images)
             this.$emit('ChangeData', this.data)
-        },
-        delete_image(){
-            this.data.delete('images[]')
         },
         add_image(images){
             for(let i=0; i<images.length; i++){

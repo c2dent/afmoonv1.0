@@ -11,7 +11,7 @@
       <router-view></router-view>
     </div>
     <div id="footer">
-
+      <Footer></Footer>
     </div>
   </div>
 </template>
@@ -20,6 +20,7 @@
 // eslint-disable-next-line
 /* eslint-disable */
 import Header from './components/Header.vue'
+import Footer from './components/Footer.vue'
 import ModalLogin from './components/modals/ModalLogin.vue'
 import ModalPhoneVerification from './components/modals/ModalPhoneVerification.vue'
 import Profile from './components/Profile.vue'
@@ -31,7 +32,8 @@ export default {
     Header,
     ModalLogin,
     ModalPhoneVerification,
-    Profile
+    Profile,
+    Footer,
   },
   data () {
     return {
@@ -98,11 +100,17 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  min-height: 100%;
 }
 .h33 {
   height: 33px;
 }
 #wrap {
   margin: 10px 0px;
+}
+#footer {
+  position: relative;
+  bottom: 0px;
+  max-height: 40px;
 }
 </style>

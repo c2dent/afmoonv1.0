@@ -90,8 +90,8 @@ def region(request):
 
 @api_view(['GET'])
 @permission_classes([AllowAny,])
-def by_region(request):
-	region = Region.objects.get(slug=request.data.get('region'))
+def by_region(request, region=None):
+	region = Region.objects.get(slug=region)
 	ad_list = BaseProduct.objects.filter(region__lft__gte=region.lft, region__rght__lte=region.rght)
 	serializer = BaseProductSerializer(ad_list, many=True)
 	return Response(serializer.data, status=status.HTTP_200_OK)
@@ -110,12 +110,6 @@ def add_ad(request):
 		return Response(serializer.data, status=status.HTTP_201_CREATED)
 	return Response(serializer.errors)
 
-@api_view(['POST'])
-@permission_classes([AllowAny,])
-def test(request):
-	files = request.FILES
-	if (files):
-		return Response(files, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 @permission_classes([AllowAny,])

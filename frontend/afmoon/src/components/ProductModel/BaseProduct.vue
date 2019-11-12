@@ -63,8 +63,10 @@ export default {
         },
         delete_image(){
             this.data.delete('images[]')
+            this.data.delete('image')
         },
         add_image(images){
+            this.data.append('image', images[0], images[0].name)
             for(let i=0; i<images.length; i++){
                 this.data.append('images[]', images[i], images[i].name)
             }

@@ -18,20 +18,21 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields = ('title', 'id', 'lft', 'rght', 'tree_id', 'level')
 
-class BaseProductSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = BaseProduct
-        fields = ('title', 'price', 'image', 'region', 'add_date', 'slug')
-
 class AdditonalImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = AdditonalImage
-        fields = ('baseproduct', 'image')
+        fields = ('image',)
 
-class CommonProductDetail(BaseProductSerializer):
+class BaseProductSerializer(serializers.ModelSerializer):
+    region_name = serializers.ReadOnlyField(source='region.title')
     class Meta:
         model = BaseProduct
-        fields = (BaseProductSerializer.Meta.fields + ('description', 'category', 'views', 'is_active', 'user'))
+        fields = ('title', 'price', 'region', 'add_date', 'slug', 'image','region_name')
+
+class CommonProductDetail(serializers.ModelSerializer):
+    class Meta:
+        model = BaseProduct
+        fields = ('title', 'price', 'image', 'region', 'add_date', 'slug', 'description', 'category', 'views', 'is_active', 'user')
 
 class AvtomobilSerialzier(CommonProductDetail):
     class Meta:

@@ -34,7 +34,7 @@ export default {
     },
     methods: {
         onChange(){
-            this.$emit('last_choices', this.choice[0])
+            this.$emit('last_choices', this.choice)
         },
     }
 }
