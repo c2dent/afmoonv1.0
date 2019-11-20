@@ -71,10 +71,18 @@ export default {
         },
         selected_type_bay(type_buy){
             if (this.data.has('rent_buy')) {
-                this.data.set('rent_buy', type_buy)
+                if (type_buy  == 'Продам'){
+                    this.data.set('rent_buy', true)
+                } else {
+                    this.data.set('rent_buy', false)
+                }
                 this.$emit('ChangeData', this.data)
             } else {
-                this.data.append('rent_buy', type_buy)
+                if (type_buy == 'Продам'){
+                    this.data.append('rent_buy', true)
+                } else {
+                    this.data.append('rent_buy', false)
+                }
                 this.$emit('ChangeData', this.data)
             }
         },
@@ -133,15 +141,20 @@ export default {
             }
         },
         get_images(images){
-            this.data.delete('images[]')
+            this.delete_image()
             this.add_image(images)
             this.$emit('ChangeData', this.data)
         },
+        delete_image(){
+            this.data.delete('images[]')
+            this.data.delete('image')
+        },
         add_image(images){
+            this.data.append('image', images[0], images[0].name)
             for(let i=0; i<images.length; i++){
                 this.data.append('images[]', images[i], images[i].name)
             }
-        },
+        }
 
     },
     beforeMount () {

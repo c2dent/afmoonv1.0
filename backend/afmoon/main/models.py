@@ -5,7 +5,7 @@ from django.contrib.auth.models import BaseUserManager
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 from .utilities import get_timestamp_path
-from .choieces import *
+from .choices import *
 
 class UserManager(BaseUserManager):
 	def create_user(self, phone_number):
@@ -129,7 +129,6 @@ class AdditonalImage(models.Model):
 
 class Avtomobil(BaseProduct):
 	mark_model = models.IntegerField('Марка и модель', choices=MARK)
-	is_new = models.BooleanField("Новые или с пробегом", default=False)
 	year_issue = models.IntegerField("Год выпуска")
 	gear_shift = models.IntegerField('Коробка передач', choices=GEAR_SHIFT)
 	body_type = models.IntegerField('Тип кузова', choices=BODY_TYPE)

@@ -33,7 +33,7 @@ export default {
     },
     methods: {
         OnChange(){
-            this.$emit('selected_redio', this.radio_boolean)
+            this.$emit('selected_radio', this.radio_boolean)
         }
     }
 }

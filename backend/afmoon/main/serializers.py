@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import User, BaseProduct, Avtomobil, Apartment, House, Land, Vacancy, Resume, Second, Personals_clothes, Personals_shoes
 from .models import Region, Category, AdditonalImage
+from .choices import *
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -24,20 +25,33 @@ class AdditonalImageSerializer(serializers.ModelSerializer):
         fields = ('image',)
 
 class BaseProductSerializer(serializers.ModelSerializer):
-    region_name = serializers.ReadOnlyField(source='region.title')
+    region_title = serializers.ReadOnlyField(source='region.title')
+    region_slug = serializers.ReadOnlyField(source='region.slug')
+    category_title = serializers.ReadOnlyField(source='category.title')
+    category_slug = serializers.ReadOnlyField(source='category.slug')
+    images = serializers.ReadOnlyField()
+
     class Meta:
         model = BaseProduct
-        fields = ('title', 'price', 'region', 'add_date', 'slug', 'image','region_name')
+        fields = ('title', 'price', 'region', 'add_date', 'slug', 'image','region_title', 'category_title', 'region_slug', 'category_slug', 'images')
+
 
 class CommonProductDetail(serializers.ModelSerializer):
+    images = AdditonalImageSerializer(many=True, required=False)
+    user_avatar = serializers.ReadOnlyField(source='user.avatar.path')
+    user_phone = serializers.ReadOnlyField(source='user.phone_number')
+    user_nickname = serializers.ReadOnlyField(source='user.nickname')
+    user_register_date = serializers.ReadOnlyField(source='user.register_date')
+    region_title = serializers.ReadOnlyField(source='region.title')
     class Meta:
         model = BaseProduct
-        fields = ('title', 'price', 'image', 'region', 'add_date', 'slug', 'description', 'category', 'views', 'is_active', 'user')
+        fields = ('title', 'price', 'region', 'add_date', 'slug', 'description','image', 'category', 'views',
+                'is_active', 'user','user_avatar', 'user_nickname','user_register_date','user_phone','images', 'region_title')
 
-class AvtomobilSerialzier(CommonProductDetail):
+class AvtomobilSerializer(CommonProductDetail):
     class Meta:
         model = Avtomobil
-        fields = (CommonProductDetail.Meta.fields + ('mark_model', 'is_new', 'year_issue', 'gear_shift', 'body_type', 'engine_type', 'mileage', 'drive_unit', 'condition'))
+        fields = (CommonProductDetail.Meta.fields + ('mark_model', 'year_issue', 'gear_shift', 'body_type', 'engine_type', 'mileage', 'drive_unit', 'condition'))
 
 class ApartmentSerializer(CommonProductDetail):
     class Meta:
@@ -49,7 +63,7 @@ class HouseSerializer(CommonProductDetail):
         model = House
         fields = (CommonProductDetail.Meta.fields + ('house_area', 'land_area'))
 
-class LandSerialzier(CommonProductDetail):
+class LandSerializer(CommonProductDetail):
     class Meta:
         model = Land
         fields = (CommonProductDetail.Meta.fields + ('land_area',))

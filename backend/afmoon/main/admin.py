@@ -67,7 +67,7 @@ class BaseProductAdmin(admin.ModelAdmin):
 	filter_horizontal = ()
 
 class AvtomobilAdmin(BaseProductAdmin):
-	fields = BaseProductAdmin.fields + ['mark_model', 'is_new', 'year_issue', 'gear_shift', 'body_type', 'engine_type', 'mileage', 'drive_unit', 'condition']
+	fields = BaseProductAdmin.fields + ['mark_model', 'year_issue', 'gear_shift', 'body_type', 'engine_type', 'mileage', 'drive_unit', 'condition']
 
 class ApartmentAdmin(BaseProductAdmin):
 	fields = BaseProductAdmin.fields + ['floors_in_house', 'floor', 'number_rooms', 'total_area' ,'rent_buy']

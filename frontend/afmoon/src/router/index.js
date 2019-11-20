@@ -5,6 +5,7 @@ import UserSettings from '../components/UserSettings'
 import UserAds from '../components/UserAds'
 import AddProduct from '../components/AddProduct'
 import AddList from '../components/AddList'
+import ProductDetail from '../components/ProductDetail'
 
 Vue.use(VueRouter)
 
@@ -29,8 +30,16 @@ export default new VueRouter({
             component: AddProduct
         },
         {
-            path:'/turkmenistan',
+            path:'/:region',
             component: AddList
         },
+        {
+            path:'/:region/:category',
+            component: AddList
+        },
+        {
+            path:'/:region/:category/:slug',
+            component: ProductDetail
+        }
     ]
 })

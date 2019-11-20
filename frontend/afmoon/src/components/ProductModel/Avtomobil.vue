@@ -5,7 +5,6 @@
         </div>
         <Choices :hint="marks" :choices="MARK" :index_array="0" @last_choices="last_mark"></Choices>
         <Choices :hint="models" :choices="MODEL" :index_array="1" v-if="MODEL" @last_choices="get_model"></Choices>
-        <BooleanSelect :hint="is_new_hint" :values="is_new" @selected_radio="selected_is_new"></BooleanSelect>
         <NumberInput :hint="year_issue_hint" @change_number_input="get_year_issue"></NumberInput>
         <Choices :hint="gear_shift_hint" :choices="GEAR_SHIFT" :index_array="1" @last_choices="get_gear_shift_choice"></Choices>
         <Choices :hint="body_type_hint" :choices="BODY_TYPE" :index_array="1" @last_choices="get_body_type_choice"></Choices>
@@ -51,8 +50,6 @@ export default {
             marks: "Марка",
             MODEL: null,
             models: "Модели",
-            is_new:['Новый','С пробегам'],
-            is_new_hint: 'Тип автомобиля',
             year_issue_hint: 'Год выпуска',
             GEAR_SHIFT: null,
             gear_shift_hint: 'Коробка передач',
@@ -137,22 +134,18 @@ export default {
             }
         },
         get_images(images){
-            this.data.delete('images[]')
+            this.delete_image()
             this.add_image(images)
             this.$emit('ChangeData', this.data)
         },
+        delete_image(){
+            this.data.delete('images[]')
+            this.data.delete('image')
+        },
         add_image(images){
+            this.data.append('image', images[0], images[0].name)
             for(let i=0; i<images.length; i++){
                 this.data.append('images[]', images[i], images[i].name)
-            }
-        },
-        selected_is_new(type_buy){
-            if (this.data.has('is_new')) {
-                this.data.set('is_new', type_buy)
-                this.$emit('ChangeData', this.data)
-            } else {
-                this.data.append('is_new', type_buy)
-                this.$emit('ChangeData', this.data)
             }
         },
         get_year_issue(number) {
@@ -211,10 +204,18 @@ export default {
         },
         selected_condition(type_buy){
             if (this.data.has('condition')) {
-                this.data.set('condition', type_buy)
+                if (type_buy == 'Не битый'){
+                    this.data.set('condition', true)
+                } else {
+                    this.data.set('condition', true)
+                }
                 this.$emit('ChangeData', this.data)
             } else {
-                this.data.append('condition', type_buy)
+                if (type_buy == 'Не битый'){
+                    this.data.append('condition', false)
+                } else {
+                    this.data.append('condition', false)
+                }
                 this.$emit('ChangeData', this.data)
             }
         },

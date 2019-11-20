@@ -80,11 +80,16 @@ export default {
             }
         },
         get_images(images){
-            this.data.delete('images[]')
+            this.delete_image()
             this.add_image(images)
             this.$emit('ChangeData', this.data)
         },
+        delete_image(){
+            this.data.delete('images[]')
+            this.data.delete('image')
+        },
         add_image(images){
+            this.data.append('image', images[0], images[0].name)
             for(let i=0; i<images.length; i++){
                 this.data.append('images[]', images[i], images[i].name)
             }

@@ -10,8 +10,9 @@ from .serializers import UserSerializer, BaseProductSerializer, RegionSerializer
 import hashlib, os
 from slugify import slugify
 from random import randint
-from .middleware import serializer_save
-from .choieces import *
+from .middleware import serializer_save, get_add_detail
+from .choices import *
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 @api_view(['POST'])
@@ -93,8 +94,41 @@ def region(request):
 def by_region(request, region=None):
 	region = Region.objects.get(slug=region)
 	ad_list = BaseProduct.objects.filter(region__lft__gte=region.lft, region__rght__lte=region.rght)
-	serializer = BaseProductSerializer(ad_list, many=True)
+	paginator = Paginator(ad_list, 25)
+	page = request.GET.get('page')
+	try:
+		ads = paginator.page(page)
+	except PageNotAnInteger:
+		ads = paginator.page(1)
+	except EmptyPage:
+		ads = paginator.page(paginator.num_pages)
+	serializer = BaseProductSerializer(ads, many=True)
 	return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny,])
+def by_region_category(request, region=None, category=None):
+	obj_region = Region.objects.get(slug=region)
+	obj_category = Category.objects.get(slug=category)
+	ad_list = BaseProduct.objects.filter(region__lft__gte=obj_region.lft, region__rght__lte=obj_region.rght,
+										category__lft__gte=obj_category.lft, category__rght__lte=obj_category.rght)
+	paginator = Paginator(ad_list, 25)
+	page = request.GET.get('page')
+	try:
+		ads = paginator.page(page)
+	except PageNotAnInteger:
+		ads = paginator.page(1)
+	except EmptyPage:
+		ads = paginator.page(paginator.num_pages)
+	serializer = BaseProductSerializer(ads, many=True)
+	return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@permission_classes([AllowAny,])
+def add_detail(request, region,category, slug):
+	data = get_add_detail(region,category,slug)
+	return Response(data, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated,])

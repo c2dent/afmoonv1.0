@@ -87,11 +87,13 @@ export default {
                 this.apartment = true
             } else if (elm.id == 170) {
                 this.house = true
+            } else if (elm.id == 171) {
+                this.land = true
             } else if (elm.id == 167) {
                 this.vacancy = true
             } else if (elm.id == 168) {
                 this.resume = true
-            } else if (elm.id == 148 || elm.id == 149 || elm.id == 150 || elm.id == 151) {
+            } else if (elm.id == 1134) {
                 this.second = true
             } else {
                 this.baseproduct = true

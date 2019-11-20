@@ -1,18 +1,18 @@
 <template>
 	<div class="wrap">
 		<div class="container">
-			<div class="row">
+			<div class="row data_general">
 				<div class="col-3 d-flex align-items-center justify-content-center">
-					<router-link to="/profile/settings">
+					<router-link :to="to_detail">
 						<img :src="image" alt="">
 					</router-link>
 				</div>
-				<div class="col-8 p-1">
+				<div class="col-8 p-1 data">
 					<div>
 						<div class="d-flex flex-column ad_data justify-content-start align-items-start">
 							<div>
 								<h5>
-									<router-link to="">
+									<router-link :to="to_detail">
 										{{ add.title }}
 									</router-link>
 								</h5>
@@ -27,7 +27,7 @@
 							<div>
 								<p>
 									<i>
-										{{ add.region_name }}
+										{{ add.region_title }}
 									</i>
 								</p>
 							</div>
@@ -60,6 +60,9 @@ export default {
 		date_created: function(){
 			moment.locale('ru');
 			return moment(this.add.add_date).fromNow();
+		},
+		to_detail: function(){
+			return '/' + this.add.region_slug + '/' + this.add.category_slug + '/' + this.add.slug
 		}
 	},
 	methods: {
@@ -87,5 +90,11 @@ img {
 }
 .add_data > div{
 	text-align: left;
+}
+.data {
+	border-bottom: 1px solid rgba(73,73, 73, 0.3);
+}
+.data_general:hover {
+	background-color: #fcf9f9;
 }
 </style>
