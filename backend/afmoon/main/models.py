@@ -110,7 +110,7 @@ class BaseProduct(models.Model):
 
 
 	def delete(self, *args, **kwargs):
-		for ai in self.additionalimage_set.all():
+		for ai in self.images.all():
 			ai.delete()
 		super().delete(*args, **kwargs)
 

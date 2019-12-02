@@ -8,7 +8,7 @@
                 <div class="d-flex col-8">
                     <select @change="onChange" v-model="choice">
                         <option value="" disabled selected style='display:none;'>Выберите</option>
-                        <option v-for="val in choices" v-bind:key="val[index_array]" :value="val">{{ val[index_array] }}</option>
+                        <option v-for="val in choices" v-bind:key="val[index_array]" :value="val[back_value]">{{ val[index_array] }}</option>
                     </select>
                 </div>
                 <div class="col-2">
@@ -26,6 +26,8 @@ export default {
         hint: null,
         choices: null,
         index_array: null,
+        default_value:{},
+        back_value: null,
     },
     data(){
         return {
@@ -36,6 +38,12 @@ export default {
         onChange(){
             this.$emit('last_choices', this.choice)
         },
+    },
+    beforeMount(){
+        if (this.default_value){
+            this.choice = this.default_value
+        }
+        this.onChange()
     }
 }
 </script>

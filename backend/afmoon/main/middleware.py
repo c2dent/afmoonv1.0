@@ -3,10 +3,10 @@ from .serializers import PersonalsShoesSerializer, CommonProductDetail, Avtomobi
 from .models import House, Land, Vacancy, Resume, Second, Personals_clothes, BaseProduct, Personals_shoes, Avtomobil, Apartment
 from .choices import *
 
-def get_model_avto(number):
+def get_model_avto(number,mark=1, model=0):
 	for num in range(len(MARK)):
 		if ( (MARK[num][1][0][0]-1)<number and (MARK[num][1][len(MARK[num][1]) -1][0] + 1) > number):
-			data = { 'mark' : MARK[num][0], 'model' : MARK[num][1][number][1]}
+			data = { 'mark' : MARK[num][model], 'model' : MARK[num][1][number][mark]}
 		return data
 
 def serializer_save(request):
@@ -18,7 +18,7 @@ def serializer_save(request):
 	elif (category == str(170) ):
 		serializer_data = HouseSerializer(data=request.data)
 	elif (category == str(171) ):
-		serializer_data = LandSerialzier(data=request.data)
+		serializer_data = LandSerializer(data=request.data)
 	elif (category == str(167) ):
 		serializer_data = VacancySerializer(data=request.data)
 	elif (category == str(168) ):
@@ -32,6 +32,104 @@ def serializer_save(request):
 	else:
 		serializer_data = CommonProductDetail(data=request.data)
 	return serializer_data
+
+def serializer_get_edit(request,slug):
+	baseproduct = BaseProduct.objects.get(slug=slug)
+	category = baseproduct.category_id
+	if (category == 172 ):
+		product = Avtomobil.objects.get(slug=slug)
+		if request.user.id == product.user_id:
+			data = AvtomobilSerializer(product)
+			serializer_data = data.data
+			dict_mark_model = get_model_avto(data.data['mark_model'], 0, 1)
+			serializer_data['mark'] = dict_mark_model['mark']
+			serializer_data['model'] = dict_mark_model['model']
+	elif (category == 169 ):
+		product = Apartment.objects.get(slug=slug)
+		if request.user.id == product.user_id:
+			serializer_data = ApartmentSerializer(product)
+			serializer_data = serializer_data.data
+	elif (category == 170):
+		product = House.objects.get(slug=slug)
+		if request.user.id == product.user_id:
+			serializer_data = HouseSerializer(product)
+			serializer_data = serializer_data.data
+	elif (category == 171 ):
+		product = Land.objects.get(slug=slug)
+		if request.user.id == product.user_id:
+			serializer_data = LandSerializer(product)
+			serializer_data = serializer_data.data
+	elif (category == 167 ):
+		product = Vacancy.objects.get(slug=slug)
+		if request.user.id == product.user_id:
+			serializer_data = VacancySerializer(product)
+			serializer_data = serializer_data.data
+	elif (category == 168 ):
+		product = Resume.objects.get(slug=slug)
+		if request.user.id == product.user_id:
+			serializer_data = ResumeSerializer(product)
+			serializer_data = serializer_data.data
+	elif (category == 157 or category == 163 or category == 139):
+		try:
+			product = Personals_shoes.objects.get(slug=slug)
+		except Personals_shoes.DoesNotExist:
+			product: None
+		if request.user.id == product.user_id:
+			serializer_data = PersonalsShoesSerializer(product)
+			serializer_data = serializer_data.data
+	elif (category == 145 or category == 161):
+		product = Personals_clothes.objects.get(slug=slug)
+		if request.user.id == product.user_id:
+			serializer_data = PersonalsClothesSerializer(product)
+			serializer_data = serializer_data.data
+	elif (category == 1134):
+		product = Second.objects.get(slug=slug)
+		if request.user.id == product.user_id:
+			serializer_data = SecondSerializer(product)
+	else:
+		product = BaseProduct.objects.get(slug=slug)
+		if request.user.id == product.user_id:
+			serializer_data = CommonProductDetail(product)
+			serializer_data = serializer_data.data
+	return serializer_data
+
+
+def serializer_edit(request,slug):
+	category = request.data.get('category')
+	if (category == str(172) ):
+		product = Avtomobil.objects.get(slug=slug)
+		serializer_data = AvtomobilSerializer(product, data=request.data)
+	elif (category == str(169) ):
+		product = Apartment.objects.get(slug=slug)
+		serializer_data = ApartmentSerializer(product, data=request.data)
+	elif (category == str(170) ):
+		product = House.objects.get(slug=slug)
+		serializer_data = HouseSerializer(product, data=request.data)
+	elif (category == str(171) ):
+		product = Land.objects.get(slug=slug)
+		serializer_data = LandSerializer(product, data=request.data)
+	elif (category == str(167) ):
+		product = Vacancy.objects.get(slug=slug)
+		serializer_data = VacancySerializer(product, data=request.data)
+	elif (category == str(168) ):
+		product = Resume.objects.get(slug=slug)
+		serializer_data = ResumeSerializer(product, data=request.data)
+	elif (category == str(157) or category == str(163) or category == str(139)):
+		product = Personals_shoes.objects.get(slug=slug)
+		serializer_data = PersonalsShoesSerializer(product, data=request.data)
+	elif (category == str(145) or category == str(161)):
+		product = Personals_clothes.objects.get(slug=slug)
+		serializer_data = PersonalsClothesSerializer(product, data=request.data)
+	elif (category == str(1134)):
+		product = Second.objects.get(slug=slug)
+		serializer_data = SecondSerializer(product, data=request.data)
+	else:
+		product = BaseProduct.objects.get(slug=slug)
+		serializer_data = CommonProductDetail(product, data=request.data)
+	return serializer_data
+
+
+
 
 def get_add_detail(region, category, slug):
 	if (category == 'avtomobili'):

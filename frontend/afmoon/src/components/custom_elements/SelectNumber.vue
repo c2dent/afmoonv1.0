@@ -26,6 +26,7 @@ export default {
     props: {
         hint: '',
         numbers: 0,
+        default_value:{},
     },
     data(){
         return {
@@ -35,6 +36,11 @@ export default {
     methods: {
         OnChange(){
             this.$emit('selected_number', this.select_number)
+        }
+    },
+    beforeMount(){
+        if (this.default_value){
+            this.select_number = this.default_value
         }
     }
 }

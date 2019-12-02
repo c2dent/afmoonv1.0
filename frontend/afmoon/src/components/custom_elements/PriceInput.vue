@@ -19,6 +19,9 @@
 <script>
 export default {
     name: 'PriceInput',
+    props: {
+        default_value: {},
+    },
     data(){
         return {
             price:'',
@@ -28,6 +31,10 @@ export default {
         send_price(){
             this.$emit('ChangePrice', this.price)
         }
+    },
+    beforeMount(){
+        this.price = this.default_value
+        this.send_price()
     }
 }
 </script>

@@ -23,6 +23,7 @@ export default {
     name: 'NumberInput',
     props: {
         hint: '',
+        default_value:{},
     },
     data(){
         return {
@@ -31,7 +32,12 @@ export default {
     },
     methods: {
         OnChange(){
-            this.$emit('change_number_input', this.number)
+            this.$emit('selected_number', this.number)
+        }
+    },
+    beforeMount(){
+        if(this.default_value){
+            this.number = this.default_value
         }
     }
 

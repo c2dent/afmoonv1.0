@@ -18,15 +18,22 @@
 <script>
 export default {
     name: 'TitleInput',
+    props: {
+        default_value: {},
+    },
     data(){
         return {
-            title_input: ''
+            title_input: '',
         }
     },
     methods: {
         OnChange(){
             this.$emit('ChangeInput', this.title_input)
         }
+    },
+    beforeMount(){
+        this.title_input = this.default_value
+        this.OnChange()
     }
 }
 </script>

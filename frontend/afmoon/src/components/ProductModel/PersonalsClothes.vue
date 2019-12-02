@@ -3,7 +3,7 @@
         <div class="d-flex heading">
             <h4>Параметры</h4>
         </div>
-        <Choices :hint="size_hint" :choices="SIZE_CLOTHES" :index_array="1" @last_choices="get_size"></Choices>
+        <Choices :hint="size_hint" :choices="SIZE_CLOTHES" :index_array="1" @last_choices="get_size" :back_value="0"></Choices>
         <TitleInput @ChangeInput="get_title"></TitleInput>
         <DescriptionText @ChangeDescription="get_description"></DescriptionText>
         <PriceInput @ChangePrice="get_price"></PriceInput>
@@ -88,11 +88,11 @@ export default {
         },
         get_size(choice){
             if (this.data.has('size')) {
-                this.data.set('size', choice[0])
+                this.data.set('size', choice)
                 this.$emit('ChangeData', this.data)
             } else {
                 this.data.append('size', choice)
-                this.$emit('ChangeData', this.data[0])
+                this.$emit('ChangeData', this.data)
             }
         },
     },

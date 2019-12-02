@@ -6,10 +6,10 @@
         <Choices :hint="marks" :choices="MARK" :index_array="0" @last_choices="last_mark"></Choices>
         <Choices :hint="models" :choices="MODEL" :index_array="1" v-if="MODEL" @last_choices="get_model"></Choices>
         <NumberInput :hint="year_issue_hint" @change_number_input="get_year_issue"></NumberInput>
-        <Choices :hint="gear_shift_hint" :choices="GEAR_SHIFT" :index_array="1" @last_choices="get_gear_shift_choice"></Choices>
-        <Choices :hint="body_type_hint" :choices="BODY_TYPE" :index_array="1" @last_choices="get_body_type_choice"></Choices>
-        <Choices :hint="engine_type_hint" :choices="ENGINE_TYPE" :index_array="1" @last_choices="get_engine_type_choice"></Choices>
-        <Choices :hint="drive_unit_hint" :choices="DRIVE_UNIT" :index_array="1" @last_choices="get_drive_unit_choice"></Choices>
+        <Choices :hint="gear_shift_hint" :choices="GEAR_SHIFT" :index_array="1" @last_choices="get_gear_shift_choice" :back_value="0"></Choices>
+        <Choices :hint="body_type_hint" :choices="BODY_TYPE" :index_array="1" @last_choices="get_body_type_choice" :back_value="0"></Choices>
+        <Choices :hint="engine_type_hint" :choices="ENGINE_TYPE" :index_array="1" @last_choices="get_engine_type_choice" :back_value="0"></Choices>
+        <Choices :hint="drive_unit_hint" :choices="DRIVE_UNIT" :index_array="1" @last_choices="get_drive_unit_choice" :back_value="0"></Choices>
         <NumberInput :hint="moleage_hint" @change_number_input="get_mileage"></NumberInput>
         <BooleanSelect :hint="condition_hint" :values="condition" @selected_radio="selected_condition"></BooleanSelect>
         <TitleInput @ChangeInput="get_title"></TitleInput>
@@ -60,7 +60,7 @@ export default {
             moleage_hint:'Пробег',
             DRIVE_UNIT: null,
             drive_unit_hint: 'Привод',
-            condition: ["Битый", "Не битый"],
+            condition: [[false,"Битый"], [true, "Не битый"]],
             condition_hint: "Состояние"
         }
     },
@@ -159,37 +159,37 @@ export default {
         },
         get_gear_shift_choice(choice){
             if (this.data.has('gear_shift')) {
-                this.data.set('gear_shift', choice[0])
+                this.data.set('gear_shift', choice)
                 this.$emit('ChangeData', this.data)
             } else {
-                this.data.append('gear_shift', choice[0])
+                this.data.append('gear_shift', choice)
                 this.$emit('ChangeData', this.data)
             }
         },
         get_body_type_choice(choice){
             if (this.data.has('body_type')) {
-                this.data.set('body_type', choice[0])
+                this.data.set('body_type', choice)
                 this.$emit('ChangeData', this.data)
             } else {
-                this.data.append('body_type', choice[0])
+                this.data.append('body_type', choice)
                 this.$emit('ChangeData', this.data)
             }
         },
         get_engine_type_choice(choice){
             if (this.data.has('engine_type')) {
-                this.data.set('engine_type', choice[0])
+                this.data.set('engine_type', choice)
                 this.$emit('ChangeData', this.data)
             } else {
-                this.data.append('engine_type', choice[0])
+                this.data.append('engine_type', choice)
                 this.$emit('ChangeData', this.data)
             }
         },
         get_drive_unit_choice(choice){
             if (this.data.has('drive_unit')) {
-                this.data.set('drive_unit', choice[0])
+                this.data.set('drive_unit', choice)
                 this.$emit('ChangeData', this.data)
             } else {
-                this.data.append('drive_unit', choice[0])
+                this.data.append('drive_unit', choice)
                 this.$emit('ChangeData', this.data)
             }
         },
@@ -204,18 +204,10 @@ export default {
         },
         selected_condition(type_buy){
             if (this.data.has('condition')) {
-                if (type_buy == 'Не битый'){
-                    this.data.set('condition', true)
-                } else {
-                    this.data.set('condition', true)
-                }
+                this.data.set('condition', type_buy)
                 this.$emit('ChangeData', this.data)
             } else {
-                if (type_buy == 'Не битый'){
-                    this.data.append('condition', false)
-                } else {
-                    this.data.append('condition', false)
-                }
+                this.data.append('condition', type_buy)
                 this.$emit('ChangeData', this.data)
             }
         },

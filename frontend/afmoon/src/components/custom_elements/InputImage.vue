@@ -34,6 +34,9 @@
 import AddImage from './AddImage'
 export default {
     name: 'InputImage',
+    props: {
+        default_value: {},
+    },
     components: {
         AddImage,
     },
@@ -58,6 +61,20 @@ export default {
                 this.images.splice(index, 1);
                 this.imgs.splice(index, 1);
             this.$emit('ChangeImages', this.imgs)
+            }
+        }
+    },
+    beforeMount(){
+        if (this.default_value){
+            this.images = this.default_value
+            if(this.images){
+                for (let i = 0; i < this.images.length; i++) {
+                    fetch(this.images[i]).then(resp => resp.blob()).then(blob => {
+                        const file = new File([blob], 'img' + i + '.jpg', blob)
+                        this.imgs.push(file)
+                        this.$emit('ChangeImages', this.imgs)
+                    })
+                }
             }
         }
     }

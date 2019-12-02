@@ -1,7 +1,7 @@
 <template>
     <div id="Wrap" class="container mt-4">
         <div class="row pt-5">
-            <div class="col-3 d-flex flex-column justify-content-center align-items-center">
+            <div class="col-3 d-flex flex-column">
                 <div>
                     <img :src="'http://127.0.0.1:8000' + profile.avatar" alt="">
                 </div>

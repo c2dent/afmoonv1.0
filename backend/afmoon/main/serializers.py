@@ -8,10 +8,11 @@ class UserSerializer(serializers.ModelSerializer):
         model= User
         fields= ('avatar', 'nickname', 'phone_number', 'region', 'register_date','id')
 
+
 class RegionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Region
-        fields = ('title', 'id', 'lft', 'rght', 'tree_id', 'level')
+        fields = ('title', 'id', 'lft', 'rght', 'tree_id', 'level','parent_id')
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -29,11 +30,17 @@ class BaseProductSerializer(serializers.ModelSerializer):
     region_slug = serializers.ReadOnlyField(source='region.slug')
     category_title = serializers.ReadOnlyField(source='category.title')
     category_slug = serializers.ReadOnlyField(source='category.slug')
-    images = serializers.ReadOnlyField()
 
     class Meta:
         model = BaseProduct
-        fields = ('title', 'price', 'region', 'add_date', 'slug', 'image','region_title', 'category_title', 'region_slug', 'category_slug', 'images')
+        fields = ('title', 'price', 'region', 'add_date', 'slug', 'image','region_title', 'category_title', 'region_slug', 'category_slug', 'is_active')
+
+
+class UserAdSerializer(serializers.ModelSerializer):
+    ad = BaseProductSerializer(many=True)
+    class Meta:
+        model = User
+        fields = ('ad',)
 
 
 class CommonProductDetail(serializers.ModelSerializer):
@@ -43,10 +50,11 @@ class CommonProductDetail(serializers.ModelSerializer):
     user_nickname = serializers.ReadOnlyField(source='user.nickname')
     user_register_date = serializers.ReadOnlyField(source='user.register_date')
     region_title = serializers.ReadOnlyField(source='region.title')
+    category_title = serializers.ReadOnlyField(source='category.title')
     class Meta:
         model = BaseProduct
         fields = ('title', 'price', 'region', 'add_date', 'slug', 'description','image', 'category', 'views',
-                'is_active', 'user','user_avatar', 'user_nickname','user_register_date','user_phone','images', 'region_title')
+                'is_active', 'user','user_avatar', 'user_nickname','user_register_date','user_phone','images', 'region_title', 'category_title')
 
 class AvtomobilSerializer(CommonProductDetail):
     class Meta:
@@ -83,12 +91,12 @@ class SecondSerializer(CommonProductDetail):
         model = Second
         fields = (CommonProductDetail.Meta.fields + ('second_hand',))
 
-class PersonalsClothesSerializer(SecondSerializer):
+class PersonalsClothesSerializer(CommonProductDetail):
     class Meta:
         model = Personals_clothes
         fields = (SecondSerializer.Meta.fields + ('size',))
 
-class PersonalsShoesSerializer(SecondSerializer):
+class PersonalsShoesSerializer(CommonProductDetail):
     class Meta:
         model = Personals_shoes
         fields = (SecondSerializer.Meta.fields + ('size',))

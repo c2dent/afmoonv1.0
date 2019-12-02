@@ -7,10 +7,11 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import User, BaseProduct, Region, Category, AdditonalImage
 from .serializers import UserSerializer, BaseProductSerializer, RegionSerializer, CategorySerializer, AdditonalImageSerializer
+from .serializers import UserAdSerializer, CommonProductDetail
 import hashlib, os
 from slugify import slugify
 from random import randint
-from .middleware import serializer_save, get_add_detail
+from .middleware import serializer_save, get_add_detail, serializer_edit, serializer_get_edit
 from .choices import *
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
@@ -68,6 +69,13 @@ def category(request):
 	else:
 		serializer = request
 	serializer = CategorySerializer(categories, many=True)
+	return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated,])
+def get_region_id(request):
+	region = Region.objects.get(id=request.query_params.get('id'))
+	serializer = RegionSerializer(region)
 	return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -130,6 +138,19 @@ def add_detail(request, region,category, slug):
 	data = get_add_detail(region,category,slug)
 	return Response(data, status=status.HTTP_200_OK)
 
+@api_view(['GET'])
+@permission_classes([AllowAny,])
+def user_detail(request, user):
+	usr = User.objects.get(id=user)
+	serializer = UserSerializer(usr)
+	return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated,])
+def get_user_ad(request):
+	serializer = UserAdSerializer(request.user)
+	return Response(serializer.data, status=status.HTTP_200_OK)
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated,])
 def add_ad(request):
@@ -143,6 +164,47 @@ def add_ad(request):
 			AdditonalImage.objects.create(baseproduct=product, image=img)
 		return Response(serializer.data, status=status.HTTP_201_CREATED)
 	return Response(serializer.errors)
+
+@api_view(['PUT', 'GET', 'DELETE'])
+@permission_classes([IsAuthenticated,])
+def edit_ad(request, slug):
+	if request.method == 'PUT':
+		serializer = serializer_edit(request,slug)
+		if serializer.is_valid():
+			slug = slugify(serializer.validated_data['title']) + '-' + str(randint(1000,9999))
+			serializer.save(slug=slug)
+			product = BaseProduct.objects.get(slug=slug)
+			images_product = product.images.all()
+			if(images_product):
+				for img in images_product:
+					img.delete()
+			if (dict((request.data).lists())['images[]']):
+				images = dict((request.data).lists())['images[]']
+				for img in images:
+					AdditonalImage.objects.create(baseproduct=product, image=img)
+			return Response(serializer.data, status=status.HTTP_201_CREATED)
+		return Response(serializer.errors)
+	elif request.method == 'GET':
+		serializer = serializer_get_edit(request,slug)
+		return Response(serializer, status=status.HTTP_200_OK)
+	elif request.method == 'DELETE':
+		product = BaseProduct.objects.get(slug=slug)
+		if (product.user_id == request.user.id):
+			response = u'Successful delete product {}'.format(product.title)
+			product.delete()
+		return Response(response)
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated,])
+def active_ad(request, slug):
+	product = BaseProduct.objects.get(slug=slug)
+	if (product.is_active):
+		product.is_active = False
+	else:
+		product.is_active = True
+	product.save()
+	serializer = BaseProductSerializer(product)
+	return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])

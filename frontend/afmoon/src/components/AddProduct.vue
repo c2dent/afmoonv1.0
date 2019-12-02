@@ -134,8 +134,6 @@ export default {
             this.personalsshoes = false
         }
 
-    },
-    beforeMount (){
     }
 }
 </script>

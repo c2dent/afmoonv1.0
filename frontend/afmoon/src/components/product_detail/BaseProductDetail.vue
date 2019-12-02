@@ -53,7 +53,7 @@
                             <div class="wrap_card_user col-12">
                                 <div class="card">
                                     <div class="avatar">
-                                        <router-link to="">
+                                        <router-link :to="'/user/' + add.user">
                                             <img :src="'http://127.0.0.1:8000' + add.user_avatar" alt="">
                                         </router-link>
                                     </div>

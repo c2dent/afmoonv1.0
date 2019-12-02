@@ -6,9 +6,9 @@
                     <span>{{ hint }}</span>
                 </div>
                 <div class="d-flex col-8">
-                    <div v-for="val in values" class="wrap_input" v-bind:key="val">
-                        <input type="radio" v-bind:value="val" v-model="radio_boolean" :id="'group' + val" @change="OnChange">
-                        <label :for="'group' + val">{{ val }}</label>
+                    <div v-for="val in values" class="wrap_input" v-bind:key="val[0]">
+                        <input type="radio" v-bind:value="val[0]" v-model="radio_boolean" :id="'group' + val" @change="OnChange">
+                        <label :for="'group' + val">{{ val[1] }}</label>
                     </div>
                 </div>
                 <div class="col-2">
@@ -25,6 +25,7 @@ export default {
     props: {
         hint : null,
         values: {},
+        default_value:{},
     },
     data() {
         return {
@@ -35,6 +36,9 @@ export default {
         OnChange(){
             this.$emit('selected_radio', this.radio_boolean)
         }
+    },
+    beforeMount(){
+        this.radio_boolean = this.default_value
     }
 }
 </script>

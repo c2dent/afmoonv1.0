@@ -38,6 +38,9 @@
 							</div>
 						</div>
 					</div>
+					<div class="d-flex">
+						<slot></slot>
+					</div>
 				</div>
 			</div>
 		</div>

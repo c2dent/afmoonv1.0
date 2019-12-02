@@ -7,7 +7,11 @@
         <SelectNumber :hint="hint_floors" :numbers="floor" @selected_number="get_hint_floors"></SelectNumber>
         <SelectNumber :hint="hint_floor" :numbers="floor" @selected_number="get_hint_floor"></SelectNumber>
         <NumberInput :hint="hint_area" @change_number_input="get_total_area"></NumberInput>
-        <Choices :hint="number_in_room" :choices="NUMBER_ROOMS" :index_array="1" @last_choices="get_number_room"></Choices>
+        <Choices :hint="number_in_room"
+                    :choices="NUMBER_ROOMS"
+                    :index_array="1"
+                    @last_choices="get_number_room"
+                    :back_value="0"></Choices>
         <BooleanSelect :hint="type_buy" :values="vaules" @selected_radio="selected_type_bay"></BooleanSelect>
         <DescriptionText @ChangeDescription="get_description"></DescriptionText>
         <PriceInput @ChangePrice="get_price"></PriceInput>
@@ -44,7 +48,7 @@ export default {
             floor: 25,
             hint_area : "Общая площадь",
             type_buy: 'Тир продажи',
-            vaules : ['Продам', 'Сдам'],
+            vaules : [[true,'Продам'], [false, 'Сдам']],
             number_in_room: "Комнаты в квартире",
             NUMBER_ROOMS: null,
         }
@@ -62,27 +66,19 @@ export default {
         },
         get_number_room(choice){
             if (this.data.has('number_rooms')) {
-                this.data.set('number_rooms', choice[0])
+                this.data.set('number_rooms', choice)
                 this.$emit('ChangeData', this.data)
             } else {
-                this.data.append('number_rooms', choice[0])
+                this.data.append('number_rooms', choice)
                 this.$emit('ChangeData', this.data)
             }
         },
         selected_type_bay(type_buy){
             if (this.data.has('rent_buy')) {
-                if (type_buy  == 'Продам'){
-                    this.data.set('rent_buy', true)
-                } else {
-                    this.data.set('rent_buy', false)
-                }
+                this.data.set('rent_buy', type_buy)
                 this.$emit('ChangeData', this.data)
             } else {
-                if (type_buy == 'Продам'){
-                    this.data.append('rent_buy', true)
-                } else {
-                    this.data.append('rent_buy', false)
-                }
+                this.data.append('rent_buy', type_buy)
                 this.$emit('ChangeData', this.data)
             }
         },

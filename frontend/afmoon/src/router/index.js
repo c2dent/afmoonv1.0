@@ -6,6 +6,8 @@ import UserAds from '../components/UserAds'
 import AddProduct from '../components/AddProduct'
 import AddList from '../components/AddList'
 import ProductDetail from '../components/ProductDetail'
+import UserDetail from '../components/UserDetail'
+import EditAd from '../components/user/EditAd'
 
 Vue.use(VueRouter)
 
@@ -26,8 +28,16 @@ export default new VueRouter({
             ]
         },
         {
+            path: '/user/:id',
+            component: UserDetail
+        },
+        {
             path: '/add-product',
             component: AddProduct
+        },
+        {
+            path: '/edit/:slug',
+            component: EditAd
         },
         {
             path:'/:region',

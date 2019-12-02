@@ -3,8 +3,8 @@
         <div class="d-flex heading">
             <h4>Параметры</h4>
         </div>
-        <Choices :hint="schedule_hint" :choices="SCHEDULE" :index_array="1" @last_choices="get_schedule_choice"></Choices>
-        <Choices :hint="work_experience_hint" :choices="WORK_EXPERIENCE" :index_array="1" @last_choices="get_work_experience_choice"></Choices>
+        <Choices :hint="schedule_hint" :choices="SCHEDULE" :index_array="1" @last_choices="get_schedule_choice" :back_value="0"></Choices>
+        <Choices :hint="work_experience_hint" :choices="WORK_EXPERIENCE" :index_array="1" @last_choices="get_work_experience_choice" :back_value="0"></Choices>
         <TitleInput @ChangeInput="get_title"></TitleInput>
         <DescriptionText @ChangeDescription="get_description"></DescriptionText>
         <PriceInput @ChangePrice="get_price"></PriceInput>
@@ -96,19 +96,19 @@ export default {
         },
         get_schedule_choice(choice){
             if (this.data.has('schedule')) {
-                this.data.set('schedule', choice[0])
+                this.data.set('schedule', choice)
                 this.$emit('ChangeData', this.data)
             } else {
-                this.data.append('schedule', choice[0])
+                this.data.append('schedule', choice)
                 this.$emit('ChangeData', this.data)
             }
         },
         get_work_experience_choice(choice){
             if (this.data.has('work_experience')) {
-                this.data.set('work_experience', choice[0])
+                this.data.set('work_experience', choice)
                 this.$emit('ChangeData', this.data)
             } else {
-                this.data.append('work_experience', choice[0])
+                this.data.append('work_experience', choice)
                 this.$emit('ChangeData', this.data)
             }
         }

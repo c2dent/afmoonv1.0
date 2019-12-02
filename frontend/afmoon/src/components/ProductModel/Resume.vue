@@ -3,11 +3,11 @@
         <div class="d-flex heading">
             <h4>Параметры</h4>
         </div>
-        <Choices :hint="schedule_hint" :choices="SCHEDULE" :index_array="1" @last_choices="get_schedule_choice"></Choices>
-        <Choices :hint="work_experience_hint" :choices="WORK_EXPERIENCE" :index_array="1" @last_choices="get_work_experience_choice"></Choices>
-        <NumberInput :hint="age_hint" @change_number_input="get_age"></NumberInput>
-        <BooleanSelect :hint="gender_hint" :values="gender" @selected_radio="selected_gender"></BooleanSelect>
         <TitleInput @ChangeInput="get_title"></TitleInput>
+        <Choices :hint="schedule_hint" :choices="SCHEDULE" :index_array="1" @last_choices="get_schedule_choice" :back_value="0"></Choices>
+        <Choices :hint="work_experience_hint" :choices="WORK_EXPERIENCE" :index_array="1" @last_choices="get_work_experience_choice" :back_value="0"></Choices>
+        <NumberInput :hint="age_hint" @selected_number="get_age"></NumberInput>
+        <BooleanSelect :hint="gender_hint" :values="gender" @selected_radio="selected_gender"></BooleanSelect>
         <DescriptionText @ChangeDescription="get_description"></DescriptionText>
         <PriceInput @ChangePrice="get_price"></PriceInput>
         <InputImage @ChangeImages="get_images"></InputImage>
@@ -47,7 +47,7 @@ export default {
             WORK_EXPERIENCE: null,
             age_hint:"Возраст",
             gender_hint: "Пол",
-            gender: ["Мужской", "Женский"],
+            gender: [[true,"Мужской"], [false,"Женский"]],
         }
     },
     methods: {
@@ -105,19 +105,19 @@ export default {
         },
         get_schedule_choice(choice){
             if (this.data.has('schedule')) {
-                this.data.set('schedule', choice[0])
+                this.data.set('schedule', choice)
                 this.$emit('ChangeData', this.data)
             } else {
-                this.data.append('schedule', choice[0])
+                this.data.append('schedule', choice)
                 this.$emit('ChangeData', this.data)
             }
         },
         get_work_experience_choice(choice){
             if (this.data.has('work_experience')) {
-                this.data.set('work_experience', choice[0])
+                this.data.set('work_experience', choice)
                 this.$emit('ChangeData', this.data)
             } else {
-                this.data.append('work_experience', choice[0])
+                this.data.append('work_experience', choice)
                 this.$emit('ChangeData', this.data)
             }
         },
@@ -132,18 +132,10 @@ export default {
         },
         selected_gender(type_buy){
             if (this.data.has('gender')) {
-                if (type_buy == 'Мужской') {
-                    this.data.set('gender', true)
-                } else {
-                    this.data.set('gender', false)
-                }
+                this.data.set('gender', type_buy)
                 this.$emit('ChangeData', this.data)
             } else {
-                if (type_buy == 'Мужской') {
-                    this.data.append('gender', true)
-                } else {
-                    this.data.append('gender', false)
-                }
+                this.data.append('gender', type_buy)
                 this.$emit('ChangeData', this.data)
             }
         },

@@ -47,7 +47,7 @@ export default {
         }
     },
     beforeMount(){
-        this.get_categories("1")
+       this.get_categories("1")
     }
 }
 </script>

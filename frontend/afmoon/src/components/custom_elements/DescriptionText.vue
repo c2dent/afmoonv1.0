@@ -19,6 +19,9 @@
 
 <script>
 export default {
+    props: {
+        default_value:{}
+    },
     name: 'DescriptionText',
     data(){
         return {
@@ -29,6 +32,10 @@ export default {
         get_description(){
             this.$emit('ChangeDescription', this.description)
         }
+    },
+    beforeMount(){
+        this.description = this.default_value
+        this.get_description()
     }
 }
 </script>
