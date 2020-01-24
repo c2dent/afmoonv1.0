@@ -56,19 +56,30 @@ def profile(request):
 
 
 @api_view(['GET'])
-@permission_classes([AllowAny])
+@permission_classes([AllowAny,])
 def category(request):
-	if (request.query_params.get('lft') and request.query_params.get('rght') and request.query_params.get('level')):
-		categories = Category.objects.filter(lft__gte=request.query_params.get('lft'), rght__lte=request.query_params.get('rght'), level=request.query_params.get('level'))
-	elif (request.query_params.get('tree_id')):
-		categories = Category.objects.filter(tree_id=request.query_params.get('tree_id'))
-	elif (request.query_params.get('level')):
-		categories = Category.objects.filter(level=request.query_params.get('level'))
-	elif (request.query_params.get('lft') and request.query_params.get('rght')):
-		categories = Category.objects.filter(lft__gte=request.query_params.get('lft'), rght_lte=request.query_params.get('rght'))
-	else:
-		serializer = request
+	categories = Category.objects.all()
+	if (request.query_params.get('lft') and request.query_params.get('rght')):
+		categories = categories.filter(lft__gte=request.query_params.get('lft'), rght__lte=request.query_params.get('rght'))
+	if (request.query_params.get('level')):
+		categories = categories.filter(level=request.query_params.get('level'))
+	if (request.query_params.get('tree_id')):
+		categories = categories.filter(tree_id=request.query_params.get('tree_id'))
 	serializer = CategorySerializer(categories, many=True)
+	return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny,])
+def region(request):
+	categories = Region.objects.all()
+	if (request.query_params.get('lft') and request.query_params.get('rght')):
+		categories = categories.filter(lft__gte=request.query_params.get('lft'), rght__lte=request.query_params.get('rght'))
+	if (request.query_params.get('level')):
+		categories = categories.filter(level=request.query_params.get('level'))
+	if (request.query_params.get('tree_id')):
+		categories = categories.filter(tree_id=request.query_params.get('tree_id'))
+	serializer = RegionSerializer(categories, many=True)
 	return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
@@ -79,37 +90,20 @@ def get_region_id(request):
 	return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-@api_view(['GET'])
-@permission_classes([AllowAny])
-def region(request):
-	if (request.query_params.get('lft') and request.query_params.get('rght') and request.query_params.get('level')):
-		regions = Region.objects.filter(lft__gte=request.query_params.get('lft'), rght__lte=request.query_params.get('rght'), level=request.query_params.get('level'))
-	elif (request.query_params.get('tree_id')):
-		regions = Region.objects.filter(tree_id=request.query_params.get('tree_id'))
-	elif (request.query_params.get('level')):
-		regions = Region.objects.filter(level=request.query_params.get('level'))
-	elif (request.query_params.get('lft') and request.query_params.get('rght')):
-		regions = Region.objects.filter(lft__gte=request.query_params.get('lft'), rght_lte=request.query_params.get('rght'))
-	else:
-		serializer = request
-	serializer = RegionSerializer(regions, many=True)
-	return Response(serializer.data, status=status.HTTP_200_OK)
-
-
 
 @api_view(['GET'])
 @permission_classes([AllowAny,])
 def by_region(request, region=None):
 	region = Region.objects.get(slug=region)
 	ad_list = BaseProduct.objects.filter(region__lft__gte=region.lft, region__rght__lte=region.rght)
-	paginator = Paginator(ad_list, 25)
+	paginator = Paginator(ad_list, 20)
 	page = request.GET.get('page')
 	try:
 		ads = paginator.page(page)
 	except PageNotAnInteger:
 		ads = paginator.page(1)
 	except EmptyPage:
-		ads = paginator.page(paginator.num_pages)
+		return Response(status=status.HTTP_204_NO_CONTENT)
 	serializer = BaseProductSerializer(ads, many=True)
 	return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -121,6 +115,25 @@ def by_region_category(request, region=None, category=None):
 	obj_category = Category.objects.get(slug=category)
 	ad_list = BaseProduct.objects.filter(region__lft__gte=obj_region.lft, region__rght__lte=obj_region.rght,
 										category__lft__gte=obj_category.lft, category__rght__lte=obj_category.rght)
+	paginator = Paginator(ad_list, 20)
+	page = request.GET.get('page')
+	try:
+		ads = paginator.page(page)
+	except PageNotAnInteger:
+		ads = paginator.page(1)
+	except EmptyPage:
+		return Response(status=status.HTTP_204_NO_CONTENT)
+	serializer = BaseProductSerializer(ads, many=True)
+	return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@permission_classes([AllowAny,])
+def ad_filter(request, region=None, category=None):
+	obj_region = Region.objects.get(slug=region)
+	ad_list = BaseProduct.objects.filter(region__lft__gte=obj_region.lft, region__rght__lte=obj_region.rght)
+	if (category):
+		obj_category = Category.objects.get(slug=category)
+		ad_list = ad_list.filter(category__lft__gte=obj_category.lft, category__rght__lte=obj_category.rght)
 	paginator = Paginator(ad_list, 25)
 	page = request.GET.get('page')
 	try:
@@ -128,7 +141,7 @@ def by_region_category(request, region=None, category=None):
 	except PageNotAnInteger:
 		ads = paginator.page(1)
 	except EmptyPage:
-		ads = paginator.page(paginator.num_pages)
+		return Response(status=status.HTTP_204_NO_CONTENT)
 	serializer = BaseProductSerializer(ads, many=True)
 	return Response(serializer.data, status=status.HTTP_200_OK)
 

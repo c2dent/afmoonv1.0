@@ -12,13 +12,13 @@ class UserSerializer(serializers.ModelSerializer):
 class RegionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Region
-        fields = ('title', 'id', 'lft', 'rght', 'tree_id', 'level','parent_id')
+        fields = ('title', 'id', 'lft', 'rght', 'tree_id', 'level','parent_id', 'slug')
 
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ('title', 'id', 'lft', 'rght', 'tree_id', 'level')
+        fields = ('title', 'id', 'lft', 'rght', 'tree_id', 'level', 'slug')
 
 class AdditonalImageSerializer(serializers.ModelSerializer):
     class Meta:

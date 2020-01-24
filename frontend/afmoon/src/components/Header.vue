@@ -6,11 +6,15 @@
 					<div class="col-12 col-sm-12 col-md-3">
 						<div class="container">
 							<div class="row">
-								<div class="col-4 col-sm-4 col-md-6 order-2 order-sm-2 order-md-1 d-flex align-self-center justify-content-center justify-content-md-start">
+								<div class="col-4 col-sm-4 col-md-6 order-2 
+											order-sm-2 order-md-1 d-flex
+											align-self-center justify-content-center
+											justify-content-md-start"
+											>
 									<router-link class="navbar-brand" to="/turkmenistan">Logo</router-link>
 								</div>
 								<div class="d-none d-sm-none d-md-block col-md-6 order-md-2">
-									<button class="btn btn-outline-success h35" data-toggle="modal" data-target="#Filter">
+									<button class="btn btn-outline-success h35" data-toggle="modal" data-target="#Filter" @click="filter">
 										Филтьр
 									</button>
 								</div>
@@ -80,6 +84,9 @@ export default{
 		},
 		logout () {
 			this.$root.$emit('logout')
+		},
+		filter(){
+			this.$root.$emit('show_modal_filter')
 		}
 	},
 	beforeMount () {

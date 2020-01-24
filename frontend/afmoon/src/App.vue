@@ -7,6 +7,12 @@
     <div>
       <ModalPhoneVerification :verificationOpened="verificationOpened" @close="close_verification_modal()"></ModalPhoneVerification>
     </div>
+    <div>
+      <ModalBase :ModalOpened="ModalOpened" @close="close_modal_base"></ModalBase>
+    </div>
+    <div>
+      <ModalFilter :ModalFilter="ModalFilter" @close="close_modal_filter"></ModalFilter>
+    </div>
     <div id="content">
       <router-view></router-view>
     </div>
@@ -22,6 +28,8 @@
 import Header from './components/Header.vue'
 import Footer from './components/Footer.vue'
 import ModalLogin from './components/modals/ModalLogin.vue'
+import ModalFilter from './components/modals/ModalFilter'
+import ModalBase from './components/modals/ModalBase.vue'
 import ModalPhoneVerification from './components/modals/ModalPhoneVerification.vue'
 import Profile from './components/Profile.vue'
 import store from './store/index'
@@ -34,11 +42,15 @@ export default {
     ModalPhoneVerification,
     Profile,
     Footer,
+    ModalBase,
+    ModalFilter
   },
   data () {
     return {
       loginOpened: false,
       verificationOpened: false,
+      ModalOpened: false,
+      ModalFilter: false,
     }
   },
   methods: {
@@ -48,6 +60,12 @@ export default {
     close_login_modal (){
       this.loginOpened = false;
     },
+    show_modal_base (){
+      this.ModalOpened = true;
+    },
+    show_modal_filter(){
+      this.ModalFilter = true;
+    },
 
 
 
@@ -56,6 +74,12 @@ export default {
     },
     close_verification_modal (){
       this.verificationOpened = false;
+    },
+    close_modal_base(){
+      this.ModalOpened = false;
+    },
+    close_modal_filter(){
+      this.ModalFilter = false;
     },
 
     send_sms(phone_number) {
@@ -86,6 +110,8 @@ export default {
   created() {
     this.$root.$on('show_login_modal', this.show_login_modal),
     this.$root.$on('show_verification_modal', this.show_verification_modal)
+    this.$root.$on('show_modal_base', this.show_modal_base)
+    this.$root.$on('show_modal_filter', this.show_modal_filter)
     this.$root.$on('send_sms', this.send_sms)
     this.$root.$on('confirm_phone', this.confirm_phone)
     this.$root.$on('logout', this.logout)

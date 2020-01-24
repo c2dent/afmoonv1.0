@@ -15,10 +15,18 @@ export default {
             select_element: {},
         }
     },
-    props: ['select_array'],
+    props: {
+        select_array: null,
+        default_value: {}
+    },
     methods: {
         onChange() {
             this.$emit('OnSelect', this.select_element)
+        }
+    },
+    beforeMount(){
+        if (this.default_value) {
+            this.select_element = this.default_value
         }
     }
 }

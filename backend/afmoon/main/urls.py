@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import send_sms, authentification_user,profile, by_region, add_ad, region, category, get_choices,by_region_category, add_detail, user_detail
-from .views import get_user_ad, edit_ad, get_region_id, active_ad
+from .views import get_user_ad, edit_ad, get_region_id, active_ad, ad_filter
 
 urlpatterns = [
 	path('accounts/send-sms/', send_sms),
@@ -16,6 +16,6 @@ urlpatterns = [
 	path('choices/', get_choices),
 	path('user/<slug:user>/', user_detail),
 	path('<slug:region>/<slug:category>/<slug:slug>/', add_detail),
-	path('<slug:region>/<slug:category>/', by_region_category),
-	path('<slug:region>/', by_region)
+	path('<slug:region>/<slug:category>/', ad_filter),
+	path('<slug:region>/', ad_filter)
 ]

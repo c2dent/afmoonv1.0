@@ -9,6 +9,8 @@ import {
     AUTH_BEGIN,
     SET_PHONE_NUMBER,
     SET_PROFILE,
+    SET_REGION,
+    SET_CATEGORY,
 } from './mutation-types'
 import axios from 'axios'
 
@@ -19,14 +21,18 @@ const state = {
     token: localStorage.getItem('user_token') || '',
     status: '',
     phone_number: '',
-    profile: {}
+    profile: {},
+    region: '',
+    category: ''
 }
 
 const getters = {
     is_authenticated: state => !!state.token, // return true, if LocalStorage don't empty
     auth_status: state => state.status,
     phone_number: state => state.phone_number,
-    get_profile: state => state.profile
+    get_profile: state => state.profile,
+    get_region: state => state.region,
+    get_category: state => state.category
 }
 
 
@@ -51,7 +57,14 @@ const mutations =  {
     },
     [SET_PROFILE] (state, profile){
         state.profile = profile
+    },
+    [SET_REGION] (state, region){
+        state.region = region
+    },
+    [SET_CATEGORY] (state, category){
+        state.category = category
     }
+
 }
 /* eslint-disable no-console */
 const actions =  {
@@ -98,6 +111,12 @@ const actions =  {
     },
     add_ad (context,data) {
         User.add_ad(data)
+    },
+    set_region(context, region){
+        context.commit(SET_REGION, region)
+    },
+    set_category(context, category){
+        context.commit(SET_CATEGORY, category)
     }
 }
 export default new Vuex.Store({

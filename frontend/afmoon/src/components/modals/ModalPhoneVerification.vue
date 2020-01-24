@@ -75,6 +75,7 @@ export default {
 	justify-content: center;
 	align-items: center;
 	transition:all 1s;
+	z-index: 10;
 }
 .modal_content{
 	display: flex;

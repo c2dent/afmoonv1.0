@@ -26,7 +26,7 @@ API_KEY = '55eb4d61-d3fe-11e9-ade6-0200cd936042'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.1.5', '192.168.1.3', '127.0.0.1', '192.168.1.4', '192.168.1.6']
 
 
 # Application definition

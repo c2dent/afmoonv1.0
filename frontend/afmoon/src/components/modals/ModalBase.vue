@@ -1,34 +1,22 @@
 <template>
 	<transition name="modal">
-		<div class="modal_wrap" v-if="loginOpened">
-			<div class="modal_background" @click="closeModalLogin"></div>
-			<div class="container shadow bg-white pl-sm-5 pr-sm-5 pb-sm-5 pl-3 pr-3 pb-3" id="modal">
+		<div class="modal_wrap" v-if="ModalOpened">
+			<div class="modal_background" @click="closeModal"></div>
+			<div class="container shadow bg-white pl-sm-5 pr-sm-5 pb-sm-2 pl-3 pr-3 pb-1" id="modal">
 				<div id="close_modal">
-					<button @click="closeModalLogin" class="close_modal">
+					<button @click="closeModal" class="close_modal">
 						<font-awesome-icon icon="times" size="lg"></font-awesome-icon>
 					</button>
 				</div>
-				<div class="col-12 mb-3 pb-0 pb-sm-1">
-					<a href="#">
-						<h2>AFMOON</h2>
-					</a>
-
+				<div class="row">
+					<div class="col-12 mb-3 pb-0 pb-sm-1">
+						<a href="#">
+							<h2>AFMOON</h2>
+						</a>
+					</div>
 				</div>
-				<div class="col-12 mb-4 pb-1 pb-sm-4">
-					<span><i>Афмун это сайт бесплатных доска объявлении</i></span>
-				</div>
-				<div class="col-12">
-					<form @submit.prevent="send_sms">
-						<span>Пожалуюста введите свой номер телефона</span>
-						<fieldset class="form-group">
-							<span id="plus">+</span><input type="tel" id="phone" class="form-control" required v-model="phone_number">
-						</fieldset>
-						<div>
-							<button class="btn btn-outline-success h35 m-2">
-								Получить код для входа
-							</button>
-						</div>
-					</form>
+				<div class="row">
+					<slot></slot>
 				</div>
 			</div>
 		</div>
@@ -38,11 +26,9 @@
 // eslint-disable-next-line
 /* eslint-disable */
 export default {
-	name: 'ModalLogin',
+	name: 'ModalBase',
 	props: {
-		loginOpened : {
-			type : Boolean,
-		},
+		ModalOpened : false
 	},
 	data () {
 		return {
@@ -50,15 +36,11 @@ export default {
 		}
 	},
 	methods: {
-		closeModalLogin () {
+		closeModal() {
 			this.$emit('close')
 		},
 		show_verification (){
-			this.$root.$emit('show_verification_modal')
-		},
-		send_sms (){
-			const phone = '+' + this.phone_number;
-			this.$root.$emit('send_sms', phone)
+			this.$root.$emit('show_modal_base')
 		}
 	}
 }
@@ -87,17 +69,17 @@ export default {
 .modal_content{
 	display: flex;
 	flex-direction: column;
-	border-radius: 5px;
+	border-radius: 3px;
 	padding: 60px 60px;
 	z-index: 50;
 	background-color: black;
 }
 #modal {
-	z-index:100;
-	border-radius: 7px;
-	max-width:400px;
+	border-radius: 3px;
+	max-width:460px;
 	transition: all 1s;
 	position:relative;
+	z-index:1000;
 }
 #plus {
 	display:inline-block;
@@ -147,8 +129,11 @@ fieldset {
 	padding: 0px;
 	margin: 0px;
 }
-.close_modal {
+.close_modal{
 	padding: 0px;
-	margin: 0px;
+	border: none;
+}
+.close_modal:active {
+	border: none;
 }
 </style>
