@@ -107,6 +107,7 @@ class BaseProduct(models.Model):
 	region = models.ForeignKey('Region', related_name='ad', on_delete=models.PROTECT, blank=True)
 	user = models.ForeignKey('user', verbose_name="Владелес", on_delete=models.CASCADE, related_name='ad')
 	slug = models.SlugField(max_length=50, blank=True)
+	favorite_for = models.ManyToManyField('user', verbose_name="Избранные", related_name='favorites', blank=True)
 
 
 	def delete(self, *args, **kwargs):
@@ -135,6 +136,7 @@ class Avtomobil(BaseProduct):
 	engine_type = models.IntegerField('Тип двигателя', choices=ENGINE_TYPE)
 	mileage = models.IntegerField('Пробег')
 	drive_unit = models.IntegerField('Привод', choices=DRIVE_UNIT)
+	isMileage = models.BooleanField('С Пробегом', default=True)
 	condition = models.BooleanField('Состояние', default=True)
 
 class Apartment(BaseProduct):

@@ -54,7 +54,7 @@ class CategoryAdmin(MPTTModelAdmin):
 	fields = ['title', 'parent', 'slug']
 
 class BaseProductAdmin(admin.ModelAdmin):
-	fields = ['title', 'price', 'image', 'region', 'slug', 'description', 'category', 'views', 'is_active', 'user']
+	fields = ['title', 'price', 'image', 'region', 'slug', 'description', 'category', 'views', 'is_active', 'user', 'favorite_for']
 
 	list_display = [
 		'title',

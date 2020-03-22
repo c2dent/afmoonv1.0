@@ -6,15 +6,15 @@ from .utilities import generation_token, get_phone, get_otp
 from rest_framework.response import Response
 from rest_framework import status
 from .models import User, BaseProduct, Region, Category, AdditonalImage
-from .serializers import UserSerializer, BaseProductSerializer, RegionSerializer, CategorySerializer, AdditonalImageSerializer
-from .serializers import UserAdSerializer, CommonProductDetail
+from .serializers import UserSerializer, BaseProductSerializer, RegionSerializer, CategorySerializer
+from .serializers import UserAdSerializer, CommonProductDetail, UserFavoriteSerializer
 import hashlib, os
 from slugify import slugify
 from random import randint
-from .middleware import serializer_save, get_add_detail, serializer_edit, serializer_get_edit
+from .middleware import serializer_save, get_add_detail, serializer_edit, serializer_get_edit, ad_filter_by_category
 from .choices import *
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+import logging
 
 @api_view(['POST'])
 @permission_classes([AllowAny,])
@@ -37,14 +37,13 @@ def authentification_user(request):
 			if User.objects.filter(phone_number=phone_number).exists():
 				user = User.objects.get(phone_number=phone_number)
 				user_details = generation_token(user, request)
-				return Response(user_details, status=status.HTTP_200_OK)
 			else:
 				user = User.objects.create_user(phone_number=phone_number)
 				user.save()
 				user_details = generation_token(user, request)
-				return Response(user_details, status=status.HTTP_200_OK)
+			return Response(user_details, status=status.HTTP_200_OK)
 		else:
-			return Response({'Message':'Failed'})
+			return Response(data)
 	else:
 		return Response(request.data)
 
@@ -53,6 +52,16 @@ def authentification_user(request):
 def profile(request):
 	serializer = UserSerializer(request.user)
 	return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated,])
+def add_remove_favorites(request):
+	product = BaseProduct.objects.get(id=request.data.get('product_id'))
+	if product.favorite_for.filter(id=request.user.id).exists():
+		product.favorite_for.remove(request.user)
+	else:
+		product.favorite_for.add(request.user)
+	return Response(product.id, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
@@ -91,49 +100,31 @@ def get_region_id(request):
 
 
 
-@api_view(['GET'])
-@permission_classes([AllowAny,])
-def by_region(request, region=None):
-	region = Region.objects.get(slug=region)
-	ad_list = BaseProduct.objects.filter(region__lft__gte=region.lft, region__rght__lte=region.rght)
-	paginator = Paginator(ad_list, 20)
-	page = request.GET.get('page')
-	try:
-		ads = paginator.page(page)
-	except PageNotAnInteger:
-		ads = paginator.page(1)
-	except EmptyPage:
-		return Response(status=status.HTTP_204_NO_CONTENT)
-	serializer = BaseProductSerializer(ads, many=True)
-	return Response(serializer.data, status=status.HTTP_200_OK)
 
-
-@api_view(['GET'])
-@permission_classes([AllowAny,])
-def by_region_category(request, region=None, category=None):
-	obj_region = Region.objects.get(slug=region)
-	obj_category = Category.objects.get(slug=category)
-	ad_list = BaseProduct.objects.filter(region__lft__gte=obj_region.lft, region__rght__lte=obj_region.rght,
-										category__lft__gte=obj_category.lft, category__rght__lte=obj_category.rght)
-	paginator = Paginator(ad_list, 20)
-	page = request.GET.get('page')
-	try:
-		ads = paginator.page(page)
-	except PageNotAnInteger:
-		ads = paginator.page(1)
-	except EmptyPage:
-		return Response(status=status.HTTP_204_NO_CONTENT)
-	serializer = BaseProductSerializer(ads, many=True)
-	return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 @permission_classes([AllowAny,])
 def ad_filter(request, region=None, category=None):
+	logging.error(request.user)
 	obj_region = Region.objects.get(slug=region)
-	ad_list = BaseProduct.objects.filter(region__lft__gte=obj_region.lft, region__rght__lte=obj_region.rght)
 	if (category):
 		obj_category = Category.objects.get(slug=category)
-		ad_list = ad_list.filter(category__lft__gte=obj_category.lft, category__rght__lte=obj_category.rght)
+		ad_list = ad_filter_by_category(request, obj_region, obj_category)  # Filter ad_lsit by additional params
+	else:
+		ad_list = BaseProduct.objects.filter(region__lft__gte=obj_region.lft, region__rght__lte=obj_region.rght)
+
+
+	if(request.query_params.get('priceFrom')):
+		ad_list = ad_list.filter(price__gte=request.query_params.get('priceFrom'))
+	if(request.query_params.get('priceUp')):
+		ad_list = ad_list.filter(price__lte=request.query_params.get('priceUp'))
+	if (request.query_params.get('order')):
+		if (request.query_params.get('order') == 'priceMinus'):
+			ad_list = ad_list.order_by('price')
+		elif (request.query_params.get('order') == 'pricePlus'):
+			ad_list = ad_list.order_by('-price')
+
+
 	paginator = Paginator(ad_list, 25)
 	page = request.GET.get('page')
 	try:
@@ -145,11 +136,16 @@ def ad_filter(request, region=None, category=None):
 	serializer = BaseProductSerializer(ads, many=True)
 	return Response(serializer.data, status=status.HTTP_200_OK)
 
+
+
+
+
 @api_view(['GET'])
 @permission_classes([AllowAny,])
 def add_detail(request, region,category, slug):
-	data = get_add_detail(region,category,slug)
+	data = get_add_detail(request ,region,category,slug)
 	return Response(data, status=status.HTTP_200_OK)
+
 
 @api_view(['GET'])
 @permission_classes([AllowAny,])
@@ -164,9 +160,17 @@ def get_user_ad(request):
 	serializer = UserAdSerializer(request.user)
 	return Response(serializer.data, status=status.HTTP_200_OK)
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated,])
+def get_user_favorites(request):
+	serializer = UserFavoriteSerializer(request.user)
+	return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated,])
 def add_ad(request):
+	logging.error(request)
 	serializer = serializer_save(request)
 	if serializer.is_valid():
 		slug = slugify(serializer.validated_data['title']) + '-' + str(randint(1000,9999))

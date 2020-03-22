@@ -131,7 +131,7 @@ def serializer_edit(request,slug):
 
 
 
-def get_add_detail(region, category, slug):
+def get_add_detail(request, region, category, slug):
 	if (category == 'avtomobili'):
 		data = Avtomobil.objects.get(region__slug=region, category__slug=category, slug=slug)
 		serializer = AvtomobilSerializer(data)
@@ -175,9 +175,9 @@ def get_add_detail(region, category, slug):
 		serializer = ResumeSerializer(data)
 		additional_data = serializer.data
 		if (serializer.data['gender']):
-			additional_data['gender'] = 'Муж'
+			additional_data['gender'] = True
 		else:
-			additional_data['gender'] = 'Жен'
+			additional_data['gender'] = False
 		additional_data['schedule'] = SCHEDULE[int(serializer.data['schedule']) -1][1]
 		additional_data['work_experience'] = WORK_EXPERIENCE[int(serializer.data['work_experience']) -1][1]
 	elif (category == 'detskii-obuv' or category == 'zhenskie-obuvy' or category == 'muzhskoi-obuv'):
@@ -199,4 +199,66 @@ def get_add_detail(region, category, slug):
 		serializer = CommonProductDetail(data)
 		additional_data = serializer.data
 	additional_data['user_avatar'] = serializer.data['user_avatar'][34:]
+	if data.favorite_for.filter(id=request.user.id).exists():
+		additional_data['favorite_for'] = True
+	else:
+		additional_data['favorite_for'] = False
 	return additional_data
+
+
+def ad_filter_by_category(request, region, category):
+	if (category.id == 172 ):
+		ad_list = Avtomobil.objects.filter(category__lft__gte=category.lft, category__rght__lte=category.rght, region__lft__gte=region.lft, region__rght__lte=region.rght)
+	elif (category.id == 169 ):
+		ad_list = Apartment.objects.filter(category__lft__gte=category.lft, category__rght__lte=category.rght, region__lft__gte=region.lft, region__rght__lte=region.rght)
+		if (request.query_params.get('floorsInHouseFrom')):
+			ad_list = ad_list.filter(floors_in_house__gte=request.query_params.get('floorsInHouseFrom'))
+		if (request.query_params.get('floorsInHouseUp')):
+			ad_list = ad_list.filter(floors_in_house__lte=request.query_params.get('floorsInHouseUp'))
+		if (request.query_params.get('floorFrom')):
+			ad_list = ad_list.filter(floor__gte=request.query_params.get('floorFrom'))
+		if (request.query_params.get('floorUp')):
+			ad_list = ad_list.filter(floor__lte=request.query_params.get('floorUp'))
+		if (request.query_params.get('totalAreaFrom')):
+			ad_list = ad_list.filter(total_area__gte=request.query_params.get('totalAreaFrom'))
+		if (request.query_params.get('totalAreaUp')):
+			ad_list = ad_list.filter(total_area__lte=request.query_params.get('totalAreaUp'))
+		if (request.query_params.get('numberRooms')):
+			ad_list = ad_list.filter(number_rooms=request.query_params.get('numberRooms'))
+	elif (category.id == 170 ):
+		ad_list = House.objects.filter(category__lft__gte=category.lft, category__rght__lte=category.rght, region__lft__gte=region.lft, region__rght__lte=region.rght)
+		if (request.query_params.get('houseAreaFrom')):
+			ad_list = ad_list.filter(house_area__gte=request.query_params.get('houseAreaFrom'))
+		if (request.query_params.get('houseAreaUp')):
+			ad_list = ad_list.filter(house_area__lte=request.query_params.get('houseAreaUp'))
+		if (request.query_params.get('landAreaFrom')):
+			ad_list = ad_list.filter(land_area__gte=request.query_params.get('landAreaFrom'))
+		if (request.query_params.get('landAreaUp')):
+			ad_list = ad_list.filter(land_area__lte=request.query_params.get('landAreaUp'))
+	elif (category.id == 171 ):
+		ad_list = Avtomobil.objects.filter(category__lft__gte=category.lft, category__rght__lte=category.rght, region__lft__gte=region.lft, region__rght__lte=region.rght)
+	elif (category.id == 167 ):
+		ad_list = Vacancy.objects.filter(category__lft__gte=category.lft, category__rght__lte=category.rght, region__lft__gte=region.lft, region__rght__lte=region.rght)
+		if (request.query_params.get('schedule')):
+			ad_list = ad_list.filter(schedule=request.query_params.get('schedule'))
+		if (request.query_params.get('workExperience')):
+			ad_list = ad_list.filter(work_experience=request.query_params.get('workExperience'))
+	elif (category.id == 168 ):
+		ad_list = Resume.objects.filter(category__lft__gte=category.lft, category__rght__lte=category.rght, region__lft__gte=region.lft, region__rght__lte=region.rght)
+		if(request.query_params.get('gender')):
+			if (request.query_params.get('gender') == 'male'):
+				ad_list = ad_list.filter(gender=True)
+			elif (request.query_params.get('gender') == 'female'):
+				ad_list = ad_list.filter(gender=False)
+		if (request.query_params.get('ageFrom')):
+			ad_list = ad_list.filter(age__gte=request.query_params.get('ageFrom'))
+		if (request.query_params.get('ageUp')):
+			ad_list = ad_list.filter(age__lte=request.query_params.get('ageUp'))
+		if (request.query_params.get('schedule')):
+			ad_list = ad_list.filter(schedule=request.query_params.get('schedule'))
+		if (request.query_params.get('workExperience')):
+			ad_list = ad_list.filter(work_experience=request.query_params.get('workExperience'))
+	else:
+		ad_list = BaseProduct.objects.filter(category__lft__gte=category.lft, category__rght__lte=category.rght, region__lft__gte=region.lft, region__rght__lte=region.rght)
+	return ad_list
+
