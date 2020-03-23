@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, BaseProduct, Avtomobil, Apartment, House, Land, Vacancy, Resume, Second, Personals_clothes, Personals_shoes
+from .models import User, BaseProduct, Avtomobil, Apartment, House, Land, Vacancy, Resume
 from .models import Region, Category, AdditonalImage
 from .choices import *
 import logging
@@ -115,23 +115,3 @@ class ResumeSerializer(VacancySerializer):
     class Meta:
         model = Resume
         fields = (VacancySerializer.Meta.fields + ('gender', 'age'))
-
-class SecondSerializer(CommonProductDetail):
-    class Meta:
-        model = Second
-        fields = (CommonProductDetail.Meta.fields + ('second_hand',))
-
-class PersonalsClothesSerializer(CommonProductDetail):
-    class Meta:
-        model = Personals_clothes
-        fields = (SecondSerializer.Meta.fields + ('size',))
-
-class PersonalsShoesSerializer(CommonProductDetail):
-    class Meta:
-        model = Personals_shoes
-        fields = (SecondSerializer.Meta.fields + ('size',))
-
-class TestProductSerialzier(serializers.ModelSerializer):
-    class Meta:
-        model = BaseProduct
-        fields = ('title', 'description', 'price', 'image', 'region', 'category', 'user')

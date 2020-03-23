@@ -1,6 +1,6 @@
-from .serializers import HouseSerializer, LandSerializer, VacancySerializer, ResumeSerializer, SecondSerializer, PersonalsClothesSerializer
-from .serializers import PersonalsShoesSerializer, CommonProductDetail, AvtomobilSerializer, ApartmentSerializer, TestProductSerialzier
-from .models import House, Land, Vacancy, Resume, Second, Personals_clothes, BaseProduct, Personals_shoes, Avtomobil, Apartment
+from .serializers import HouseSerializer, LandSerializer, VacancySerializer, ResumeSerializer
+from .serializers import CommonProductDetail, AvtomobilSerializer, ApartmentSerializer
+from .models import House, Land, Vacancy, Resume, BaseProduct, Avtomobil, Apartment
 from .choices import *
 
 def get_model_avto(number,mark=1, model=0):
@@ -23,12 +23,6 @@ def serializer_save(request):
 		serializer_data = VacancySerializer(data=request.data)
 	elif (category == str(168) ):
 		serializer_data = ResumeSerializer(data=request.data)
-	elif (category == str(157) or category == str(163) or str(139)):
-		serializer_data = PersonalsShoesSerializer(data=request.data)
-	elif (category == str(145) or category == str(161)):
-		serializer_data = PersonalsClothesSerializer(data=request.data)
-	elif (category == str(1134)):
-		serializer_data = SecondSerializer(data=request.data)
 	else:
 		serializer_data = CommonProductDetail(data=request.data)
 	return serializer_data
@@ -69,23 +63,6 @@ def serializer_get_edit(request,slug):
 		if request.user.id == product.user_id:
 			serializer_data = ResumeSerializer(product)
 			serializer_data = serializer_data.data
-	elif (category == 157 or category == 163 or category == 139):
-		try:
-			product = Personals_shoes.objects.get(slug=slug)
-		except Personals_shoes.DoesNotExist:
-			product: None
-		if request.user.id == product.user_id:
-			serializer_data = PersonalsShoesSerializer(product)
-			serializer_data = serializer_data.data
-	elif (category == 145 or category == 161):
-		product = Personals_clothes.objects.get(slug=slug)
-		if request.user.id == product.user_id:
-			serializer_data = PersonalsClothesSerializer(product)
-			serializer_data = serializer_data.data
-	elif (category == 1134):
-		product = Second.objects.get(slug=slug)
-		if request.user.id == product.user_id:
-			serializer_data = SecondSerializer(product)
 	else:
 		product = BaseProduct.objects.get(slug=slug)
 		if request.user.id == product.user_id:
@@ -114,15 +91,6 @@ def serializer_edit(request,slug):
 	elif (category == str(168) ):
 		product = Resume.objects.get(slug=slug)
 		serializer_data = ResumeSerializer(product, data=request.data)
-	elif (category == str(157) or category == str(163) or category == str(139)):
-		product = Personals_shoes.objects.get(slug=slug)
-		serializer_data = PersonalsShoesSerializer(product, data=request.data)
-	elif (category == str(145) or category == str(161)):
-		product = Personals_clothes.objects.get(slug=slug)
-		serializer_data = PersonalsClothesSerializer(product, data=request.data)
-	elif (category == str(1134)):
-		product = Second.objects.get(slug=slug)
-		serializer_data = SecondSerializer(product, data=request.data)
 	else:
 		product = BaseProduct.objects.get(slug=slug)
 		serializer_data = CommonProductDetail(product, data=request.data)
@@ -180,20 +148,6 @@ def get_add_detail(request, region, category, slug):
 			additional_data['gender'] = False
 		additional_data['schedule'] = SCHEDULE[int(serializer.data['schedule']) -1][1]
 		additional_data['work_experience'] = WORK_EXPERIENCE[int(serializer.data['work_experience']) -1][1]
-	elif (category == 'detskii-obuv' or category == 'zhenskie-obuvy' or category == 'muzhskoi-obuv'):
-		data = Personals_shoes.objects.get(region__slug=region, category__slug=category, slug=slug)
-		serializer = PersonalsShoesSerializer(data)
-		additional_data = serializer.data
-		additional_data['size'] = SIZE_SHOES[int(serializer.data['schedule']) -1][1]
-	elif (category == 'verkhniaia-odezhda' or category == 'zhenskaia-verkhniaia-odezhda'):
-		data = Personals_clothes.objects.get(region__slug=region, category__slug=category, slug=slug)
-		serializer = PersonalsClothesSerializer(data)
-		additional_data = serializer.data
-		additional_data['size'] = SIZE_CLOTHES[int(serializer.data['schedule']) -1][1]
-	elif (category == '1132_yetende' ):
-		data = Second.objects.get(region__slug=region, category__slug=category, slug=slug)
-		serializer = SecondSerializer(data)
-		additional_data = serializer.data
 	else:
 		data = BaseProduct.objects.get(region__slug=region, category__slug=category, slug=slug)
 		serializer = CommonProductDetail(data)

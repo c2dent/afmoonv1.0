@@ -235,9 +235,7 @@ def get_choices(request):
 		"ENGINE_TYPE": ENGINE_TYPE,
 		"DRIVE_UNIT": DRIVE_UNIT,
 		"SCHEDULE": SCHEDULE,
-		"WORK_EXPERIENCE": WORK_EXPERIENCE,
-		"SIZE_CLOTHES": SIZE_CLOTHES,
-		"SIZE_SHOES": SIZE_SHOES,
+		"WORK_EXPERIENCE": WORK_EXPERIENCE
 	}
 	choices = request.query_params.get('choices')
 	if choices is not None and choices in available_dicts:

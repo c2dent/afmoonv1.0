@@ -5,7 +5,7 @@ from .forms import UserChangeForm, UserCreationForm, LoginForm
 from mptt.admin import MPTTModelAdmin
 
 from .models import User, Region, Category, BaseProduct, Apartment, Avtomobil, AdditonalImage
-from .models import House, Land, Vacancy, Resume, Second, Personals_clothes, Personals_shoes
+from .models import House, Land, Vacancy, Resume
 
 class UserAdmin(UserAdmin):
 	form = UserChangeForm
@@ -54,7 +54,7 @@ class CategoryAdmin(MPTTModelAdmin):
 	fields = ['title', 'parent', 'slug']
 
 class BaseProductAdmin(admin.ModelAdmin):
-	fields = ['title', 'price', 'image', 'region', 'slug', 'description', 'category', 'views', 'is_active', 'user', 'favorite_for']
+	fields = ['title', 'price', 'region', 'slug', 'description', 'category', 'views', 'is_active', 'user', 'favorite_for']
 
 	list_display = [
 		'title',
@@ -84,26 +84,6 @@ class VacancyAdmin(BaseProductAdmin):
 class ResumeAdmin(VacancyAdmin):
 	fields = VacancyAdmin.fields + ['gender', 'age']
 
-class SecondAdmin(BaseProductAdmin):
-	fields = BaseProductAdmin.fields + ['second_hand']
-
-	list_display = [
-		'title',
-		'price',
-		'id',
-		'baseproduct_ptr_id'
-	]
-
-	search_fields = ('slug',)
-	ordering = ('slug',)
-	filter_horizontal = ()
-
-class PersonalsClothesAdmin(SecondAdmin):
-	fields = SecondAdmin.fields + ['size']
-
-class PersonalsShoesAdmin(SecondAdmin):
-	fields = SecondAdmin.fields + ['size']
-
 # Register your models here.
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Region, RegionAdmin)
@@ -115,8 +95,5 @@ admin.site.register(House, HouseAdmin)
 admin.site.register(Land, LandAdmin)
 admin.site.register(Vacancy, VacancyAdmin)
 admin.site.register(Resume, ResumeAdmin)
-admin.site.register(Second, SecondAdmin)
-admin.site.register(Personals_clothes, PersonalsClothesAdmin)
-admin.site.register(Personals_shoes, PersonalsShoesAdmin)
 admin.site.register(User, UserAdmin)
 admin.site.unregister(Group)

@@ -99,7 +99,6 @@ class BaseProduct(models.Model):
 	title = models.CharField("Названия", max_length=40)
 	add_date = models.DateTimeField("Дата добавления", auto_now_add=True)
 	description = models.TextField("Описания", blank=True, null=True)
-	image = models.ImageField("Изображения", blank=True, upload_to=get_timestamp_path, null=True)
 	price = models.FloatField("Цена", blank=True, null=True)
 	is_active = models.BooleanField("Is_Active", default=True, db_index=True)
 	views = models.IntegerField("Просмотрый", default=0)
@@ -136,8 +135,9 @@ class Avtomobil(BaseProduct):
 	engine_type = models.IntegerField('Тип двигателя', choices=ENGINE_TYPE)
 	mileage = models.IntegerField('Пробег')
 	drive_unit = models.IntegerField('Привод', choices=DRIVE_UNIT)
-	isMileage = models.BooleanField('С Пробегом', default=True)
 	condition = models.BooleanField('Состояние', default=True)
+	isMileage = models.BooleanField('С Пробегом', default=True)
+
 
 class Apartment(BaseProduct):
 	floors_in_house = models.IntegerField('Этажы в доме', default=0)
@@ -160,17 +160,5 @@ class Vacancy(BaseProduct):
 class Resume(Vacancy):
 	gender = models.BooleanField("Пол", default=True)
 	age = models.IntegerField("Возраст")
-
-class Second(BaseProduct):
-	second_hand = models.BooleanField("Новый или б/у", default=True)
-
-	def __str__(self):
-		return self.title
-
-class Personals_clothes(Second):
-	size = models.IntegerField("Размер", choices=SIZE_CLOTHES)
-
-class Personals_shoes(Second):
-	size = models.IntegerField("Размер", choices=SIZE_SHOES)
 
 # Create your models here.
