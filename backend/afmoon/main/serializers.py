@@ -73,6 +73,12 @@ class UserFavoriteSerializer(serializers.ModelSerializer):
         fields = ('favorites',)
 
 
+class AddProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BaseProduct
+        fields = '__all__'
+
+
 class CommonProductDetail(serializers.ModelSerializer):
     images = AdditonalCommonImageSerializer(many=True, required=False)
     user_avatar = serializers.ReadOnlyField(source='user.avatar.path')
@@ -83,7 +89,7 @@ class CommonProductDetail(serializers.ModelSerializer):
     category_title = serializers.ReadOnlyField(source='category.title')
     class Meta:
         model = BaseProduct
-        fields = ('title', 'price', 'region', 'add_date', 'slug', 'description','image', 'category', 'views','id',
+        fields = ('title', 'price', 'region', 'add_date', 'slug', 'description', 'category', 'views','id',
                 'is_active', 'user','user_avatar', 'user_nickname','user_register_date','user_phone','images', 'region_title', 'category_title')
 
 class AvtomobilSerializer(CommonProductDetail):

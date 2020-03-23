@@ -1,5 +1,5 @@
 from .serializers import HouseSerializer, LandSerializer, VacancySerializer, ResumeSerializer
-from .serializers import CommonProductDetail, AvtomobilSerializer, ApartmentSerializer
+from .serializers import CommonProductDetail, AvtomobilSerializer, ApartmentSerializer, AddProductSerializer
 from .models import House, Land, Vacancy, Resume, BaseProduct, Avtomobil, Apartment
 from .choices import *
 
@@ -24,7 +24,7 @@ def serializer_save(request):
 	elif (category == str(168) ):
 		serializer_data = ResumeSerializer(data=request.data)
 	else:
-		serializer_data = CommonProductDetail(data=request.data)
+		serializer_data = AddProductSerializer(data=request.data)
 	return serializer_data
 
 def serializer_get_edit(request,slug):

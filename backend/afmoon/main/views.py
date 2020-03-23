@@ -170,7 +170,6 @@ def get_user_favorites(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated,])
 def add_ad(request):
-	logging.error(request)
 	serializer = serializer_save(request)
 	if serializer.is_valid():
 		slug = slugify(serializer.validated_data['title']) + '-' + str(randint(1000,9999))
