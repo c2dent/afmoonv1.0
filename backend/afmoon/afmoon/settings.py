@@ -26,7 +26,9 @@ API_KEY = '8e5a7e89-5974-11ea-9fa5-0200cd936042'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.5', '192.168.1.3', '127.0.0.1', '192.168.1.4', '192.168.1.6', '192.168.1.7' , '192.168.1.8','192.168.1.9', '192.168.1.11']
+ALLOWED_HOSTS = ['192.168.1.5', '192.168.1.3', '127.0.0.1', '192.168.1.4', '192.168.1.6', '192.168.1.7' , '192.168.1.8','192.168.1.9', '192.168.1.11',
+        '192.168.1.12'
+    ]
 
 
 # Application definition
@@ -44,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -135,7 +138,12 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.BasicAuthentication',
         ),
-    }
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 25
+}
 
 THUMBNAIL_ALIASES = {
     '': {

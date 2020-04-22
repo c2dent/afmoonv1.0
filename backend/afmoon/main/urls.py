@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import send_sms, authentification_user,profile, add_ad, region, category, get_choices, add_detail, user_detail
-from .views import get_user_ad, edit_ad, get_region_id, active_ad, ad_filter, add_remove_favorites, get_user_favorites
+from .views import send_sms, authentification_user,profile, get_choices, add_detail, user_detail, ProductList, AdCreateAPIView
+from .views import get_user_ad, edit_ad, active_ad, add_remove_favorites, get_user_favorites, CategoryList, RegionList, AdDetail
 
 urlpatterns = [
 	path('accounts/send-sms/', send_sms),
@@ -8,16 +8,15 @@ urlpatterns = [
 	path('accounts/profile/', profile),
 	path('accounts/add-remove-favorite/', add_remove_favorites),
 	path('accounts/user-favorites/', get_user_favorites),
-	path('category/', category),
-	path('region-id/', get_region_id),
-	path('region/', region),
-	path('add-ad/', add_ad),
+	path('category/', CategoryList.as_view()),
+	path('region/', RegionList.as_view()),
+	path('add-ad/', AdCreateAPIView.as_view()),
 	path('edit-ad/active/<slug:slug>/', active_ad),
 	path('edit-ad/<slug:slug>/', edit_ad),
 	path('user-ads/', get_user_ad),
 	path('choices/', get_choices),
+	path('ads/', ProductList.as_view()),
+	path('ads/<slug:slug>/', AdDetail.as_view()),
 	path('user/<slug:user>/', user_detail),
 	path('<slug:region>/<slug:category>/<slug:slug>/', add_detail),
-	path('<slug:region>/<slug:category>/', ad_filter),
-	path('<slug:region>/', ad_filter)
 ]

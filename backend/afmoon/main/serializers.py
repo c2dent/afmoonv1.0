@@ -4,6 +4,20 @@ from .models import Region, Category, AdditonalImage
 from .choices import *
 import logging
 
+
+def get_actual(obj):
+    """Expands `obj` to the actual object type.
+    """
+    for name in dir(obj):
+        try:
+            attr = getattr(obj, name)
+            if isinstance(attr, obj.__class__):
+                return attr
+        except:
+            pass
+    return obj
+
+
 class UserSerializer(serializers.ModelSerializer):
     region_title = serializers.ReadOnlyField(source='region.title')
     class Meta:
@@ -74,9 +88,18 @@ class UserFavoriteSerializer(serializers.ModelSerializer):
 
 
 class AddProductSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = BaseProduct
-        fields = '__all__'
+        fields = ('title', 'description', 'price', 'region', 'category', 'user')
+
+    def create(self, validated_data):
+        images_data = self.context.get('request').data.getlist('images')
+        ad = BaseProduct.objects.create(**validated_data)
+        print(self.context.get('request').data.getlist('images'))
+        for image_data in images_data:
+            AdditonalImage.objects.create(baseproduct=ad, image=image_data)
+        return ad
 
 
 class CommonProductDetail(serializers.ModelSerializer):
@@ -87,15 +110,27 @@ class CommonProductDetail(serializers.ModelSerializer):
     user_register_date = serializers.ReadOnlyField(source='user.register_date')
     region_title = serializers.ReadOnlyField(source='region.title')
     category_title = serializers.ReadOnlyField(source='category.title')
+
+
     class Meta:
         model = BaseProduct
-        fields = ('title', 'price', 'region', 'add_date', 'slug', 'description', 'category', 'views','id',
+        fields = ('title', 'price', 'region', 'add_date', 'slug', 'description', 'category', 'views','id', 'is_deleted',
                 'is_active', 'user','user_avatar', 'user_nickname','user_register_date','user_phone','images', 'region_title', 'category_title')
+
+    def create(self, validated_data):
+        images_data = self.context.get('request').data.getlist('images')
+        ad = self.Meta.model.objects.create(**validated_data)
+        print(self.context.get('request').data.getlist('images'))
+        for image_data in images_data:
+            AdditonalImage.objects.create(baseproduct=ad, image=image_data)
+        return ad
+
 
 class AvtomobilSerializer(CommonProductDetail):
     class Meta:
         model = Avtomobil
-        fields = (CommonProductDetail.Meta.fields + ('mark_model', 'year_issue', 'gear_shift', 'body_type', 'engine_type', 'mileage', 'drive_unit', 'condition'))
+        fields = (CommonProductDetail.Meta.fields + ('mark_model', 'year_issue', 'gear_shift', 'body_type', 'engine_type',
+        'mileage', 'drive_unit', 'condition', 'is_mileage'))
 
 class ApartmentSerializer(CommonProductDetail):
     class Meta:
@@ -112,6 +147,7 @@ class LandSerializer(CommonProductDetail):
         model = Land
         fields = (CommonProductDetail.Meta.fields + ('land_area',))
 
+
 class VacancySerializer(CommonProductDetail):
     class Meta:
         model = Vacancy
@@ -121,3 +157,73 @@ class ResumeSerializer(VacancySerializer):
     class Meta:
         model = Resume
         fields = (VacancySerializer.Meta.fields + ('gender', 'age'))
+
+
+
+
+class AvtomobilGetSerializer(CommonProductDetail):
+    gear_shift = serializers.SerializerMethodField()
+    body_type = serializers.SerializerMethodField()
+    engine_type = serializers.SerializerMethodField()
+    drive_unit = serializers.SerializerMethodField()
+    mark = serializers.SerializerMethodField()
+    model = serializers.SerializerMethodField()
+    class Meta:
+        model = Avtomobil
+        fields = (CommonProductDetail.Meta.fields + ('mark_model', 'year_issue', 'gear_shift', 'body_type', 'engine_type',
+        'mileage', 'drive_unit', 'condition', 'mark', 'model', 'is_mileage'))
+
+    def get_gear_shift(self, obj):
+        return GEAR_SHIFT[int(obj.gear_shift) -1][1]
+
+    def get_body_type(self, obj):
+        return BODY_TYPE[int(obj.body_type) -1][1]
+
+    def get_engine_type(self, obj):
+        return ENGINE_TYPE[int(obj.engine_type) -1][1]
+
+    def get_drive_unit(self, obj):
+        return DRIVE_UNIT[int(obj.drive_unit) -1][1]
+
+    def get_mark(self, obj):
+        mark_model = obj.title.split(',')[0]
+        return mark_model.split(' ', 1)[0]
+
+    def get_model(self, obj):
+        mark_model = obj.title.split(',')[0]
+        return mark_model.split(' ', 1)[1]
+
+
+class ApartmentGetSerializer(CommonProductDetail):
+    class Meta:
+        model = Apartment
+        fields = ((CommonProductDetail.Meta.fields) + ('floors_in_house', 'floor', 'number_rooms', 'total_area', 'rent_buy'))
+
+
+
+class ProductDetailSerializer(serializers.ModelSerializer):
+
+
+    def to_representation(self, obj):
+        value = get_actual(obj)
+        if isinstance(value, Land):
+            serializer = LandSerializer(value)
+        elif isinstance(value, Avtomobil):
+            serializer = AvtomobilSerializer(value)
+        elif isinstance(value, Apartment):
+            serializer = ApartmentSerializer(value)
+        elif isinstance(value, House):
+            serializer = HouseSerializer(value)
+        elif isinstance(value, Vacancy):
+            serializer = VacancySerializer(value)
+        elif isinstance(value, Resume):
+            serializer = ResumeSerializer(value)
+        else:
+            serializer = CommonProductDetail(obj)
+        return serializer.data
+
+    class Meta:
+        model = BaseProduct
+        fields = '__all__'
+
+        extra_field_kwargs = {'url': {'lookup_field': 'slug'}}

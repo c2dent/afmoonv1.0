@@ -1,31 +1,46 @@
-from .serializers import HouseSerializer, LandSerializer, VacancySerializer, ResumeSerializer
+from .serializers import HouseSerializer, LandSerializer, VacancySerializer, ResumeSerializer, AvtomobilGetSerializer
 from .serializers import CommonProductDetail, AvtomobilSerializer, ApartmentSerializer, AddProductSerializer
 from .models import House, Land, Vacancy, Resume, BaseProduct, Avtomobil, Apartment
 from .choices import *
+from .filters import BaseProductFilter, AvtomobilFilter, ApartmentFilter,HouseFilter, LandFilter, VacancyFilter, ResumeFilter
 
-def get_model_avto(number,mark=1, model=0):
-	for num in range(len(MARK)):
-		if ( (MARK[num][1][0][0]-1)<number and (MARK[num][1][len(MARK[num][1]) -1][0] + 1) > number):
-			data = { 'mark' : MARK[num][model], 'model' : MARK[num][1][number][mark]}
-		return data
 
-def serializer_save(request):
-	category = request.data.get('category')
-	if (category == str(172) ):
-		serializer_data = AvtomobilSerializer(data=request.data)
-	elif (category == str(169) ):
-		serializer_data = ApartmentSerializer(data=request.data)
-	elif (category == str(170) ):
-		serializer_data = HouseSerializer(data=request.data)
-	elif (category == str(171) ):
-		serializer_data = LandSerializer(data=request.data)
-	elif (category == str(167) ):
-		serializer_data = VacancySerializer(data=request.data)
-	elif (category == str(168) ):
-		serializer_data = ResumeSerializer(data=request.data)
+def get_serializer_class(request):
+	category_id = request.data.get('category')
+	switcher = {
+		'172' : AvtomobilSerializer,
+		'169' : ApartmentSerializer,
+		'170' : HouseSerializer,
+		'171' : LandSerializer,
+		'167' : VacancySerializer,
+		'168' : ResumeSerializer
+	}
+	return switcher.get(category_id, AddProductSerializer)
+
+
+def get_queryset_objects(self):
+	category_id = self.request.query_params.get('category')
+	if (category_id == '172'):
+		self.filterset_class = AvtomobilFilter
+		return Avtomobil.objects.filter(is_active=True, is_deleted=False)
+	elif (category_id == '169'):
+		self.filterset_class = ApartmentFilter
+		return Apartment.objects.filter(is_active=True, is_deleted=False)
+	elif (category_id == '170'):
+		self.filterset_class = HouseFilter
+		return House.objects.filter(is_active=True, is_deleted=False)
+	elif (category_id == '171'):
+		self.filterset_class = LandFilter
+		return Land.objects.filter(is_active=True, is_deleted=False)
+	elif (category_id == '167'):
+		self.filterset_class = VacancyFilter
+		return Vacancy.objects.filter(is_active=True, is_deleted=False)
+	elif (category_id == '168'):
+		self.filterset_class = ResumeFilter
+		return Resume.objects.filter(is_active=True, is_deleted=False)
 	else:
-		serializer_data = AddProductSerializer(data=request.data)
-	return serializer_data
+		self.filterset_class = BaseProductFilter
+		return BaseProduct.objects.filter(is_active=True, is_deleted=False).order_by('add_date')
 
 def serializer_get_edit(request,slug):
 	baseproduct = BaseProduct.objects.get(slug=slug)
@@ -102,19 +117,8 @@ def serializer_edit(request,slug):
 def get_add_detail(request, region, category, slug):
 	if (category == 'avtomobili'):
 		data = Avtomobil.objects.get(region__slug=region, category__slug=category, slug=slug)
-		serializer = AvtomobilSerializer(data)
+		serializer = AvtomobilGetSerializer(data)
 		additional_data = serializer.data
-		dict_mark_model = get_model_avto(serializer.data['mark_model'])
-		if (serializer.data['condition']):
-			additional_data['condition'] = 'Не битый'
-		else:
-			additional_data['condition'] = 'Битый'
-		additional_data['mark'] = dict_mark_model['mark']
-		additional_data['model'] = dict_mark_model['model']
-		additional_data['gear_shift'] = GEAR_SHIFT[int(serializer.data['gear_shift']) -1][1]
-		additional_data['body_type'] = BODY_TYPE[int(serializer.data['body_type']) -1][1]
-		additional_data['engine_type'] = ENGINE_TYPE[int(serializer.data['engine_type']) -1][1]
-		additional_data['drive_unit'] = DRIVE_UNIT[int(serializer.data['drive_unit']) -1][1]
 	elif (category == 'kvartiry'):
 		data = Apartment.objects.get(region__slug=region, category__slug=category, slug=slug)
 		serializer = ApartmentSerializer(data)
@@ -214,5 +218,5 @@ def ad_filter_by_category(request, region, category):
 			ad_list = ad_list.filter(work_experience=request.query_params.get('workExperience'))
 	else:
 		ad_list = BaseProduct.objects.filter(category__lft__gte=category.lft, category__rght__lte=category.rght, region__lft__gte=region.lft, region__rght__lte=region.rght)
+	ad_list = ad_list.filter(is_active=True, is_deleted=False)
 	return ad_list
-

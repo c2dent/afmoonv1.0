@@ -7,6 +7,7 @@ import requests
 import jwt
 
 
+
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 
 def generation_token(user, request):

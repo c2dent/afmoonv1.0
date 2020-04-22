@@ -6,6 +6,12 @@ from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 from .utilities import get_timestamp_path
 from .choices import *
+from slugify import slugify
+import datetime
+from datetime import timezone
+from random import randint
+
+
 
 class UserManager(BaseUserManager):
 	def create_user(self, phone_number):
@@ -101,18 +107,28 @@ class BaseProduct(models.Model):
 	description = models.TextField("Описания", blank=True, null=True)
 	price = models.FloatField("Цена", blank=True, null=True)
 	is_active = models.BooleanField("Is_Active", default=True, db_index=True)
-	views = models.IntegerField("Просмотрый", default=0)
+	views = models.PositiveIntegerField("Просмотрый", default=0)
 	category = models.ForeignKey('Category', related_name='ad', on_delete=models.PROTECT, blank=True)
 	region = models.ForeignKey('Region', related_name='ad', on_delete=models.PROTECT, blank=True)
 	user = models.ForeignKey('user', verbose_name="Владелес", on_delete=models.CASCADE, related_name='ad')
-	slug = models.SlugField(max_length=50, blank=True)
+	slug = models.SlugField(max_length=50, blank=True, unique=True)
 	favorite_for = models.ManyToManyField('user', verbose_name="Избранные", related_name='favorites', blank=True)
+	is_deleted = models.BooleanField('Удаленный', default=False)
 
 
 	def delete(self, *args, **kwargs):
 		for ai in self.images.all():
 			ai.delete()
 		super().delete(*args, **kwargs)
+
+
+
+	def save(self, *args, **kwargs):
+		if not self.slug:
+			self.slug = slugify(self.title) + '-' + str(randint(100000,99999999))
+		super().save(*args, **kwargs)
+
+
 
 	class Meta:
 		verbose_name_plural = 'Объявления'
@@ -136,7 +152,7 @@ class Avtomobil(BaseProduct):
 	mileage = models.IntegerField('Пробег')
 	drive_unit = models.IntegerField('Привод', choices=DRIVE_UNIT)
 	condition = models.BooleanField('Состояние', default=True)
-	isMileage = models.BooleanField('С Пробегом', default=True)
+	is_mileage = models.BooleanField('С Пробегом', default=True)
 
 
 class Apartment(BaseProduct):
