@@ -20,14 +20,18 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'i@^ppkhwt@7$(a%b4$u7u+y^ts(#aqa@g4yu(4zz)7ru%1(m9a'
+# SECRET_KEY = 'i@^ppkhwt@7$(a%b4$u7u+y^ts(#aqa@g4yu(4zz)7ru%1(m9a'
 API_KEY = '8e5a7e89-5974-11ea-9fa5-0200cd936042'
+
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'i@^ppkhwt@7$(a%b4$u7u+y^ts(#aqa@g4yu(4zz)7ru%1(m9a')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.5', '192.168.1.3', '127.0.0.1', '192.168.1.4', '192.168.1.6', '192.168.1.7' , '192.168.1.8','192.168.1.9', '192.168.1.11',
-        '192.168.1.12'
+# DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
+
+ALLOWED_HOSTS = ['192.168.1.5', '192.168.1.3', '127.0.0.1', '192.168.1.4', '192.168.1.6', '192.168.1.7', '192.168.1.8',
+                 '192.168.1.9', '192.168.1.11', '192.168.1.12'
     ]
 
 
@@ -47,6 +51,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_filters',
+    'django.contrib.sites',
+    'moderation',
 ]
 
 MIDDLEWARE = [
@@ -83,7 +89,7 @@ TEMPLATES = [
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
-
+SITE_ID = 1
 
 WSGI_APPLICATION = 'afmoon.wsgi.application'
 
@@ -173,6 +179,14 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
+SECURE_HSTS_SECONDS = 31536000
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+X_FRAME_OPTIONS = 'DENY'
+SECURE_HSTS_PRELOAD = True
+SECURE_BROWSER_XSS_FILTER = True
+
+
 
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

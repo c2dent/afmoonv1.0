@@ -173,8 +173,10 @@ class Vacancy(BaseProduct):
 	schedule = models.IntegerField('График работы', choices=SCHEDULE)
 	work_experience = models.IntegerField('Опыть работы', choices=WORK_EXPERIENCE)
 
-class Resume(Vacancy):
+class Resume(BaseProduct):
 	gender = models.BooleanField("Пол", default=True)
 	age = models.IntegerField("Возраст")
+	schedule = models.IntegerField('График работы', choices=SCHEDULE)
+	work_experience = models.IntegerField('Опыть работы', choices=WORK_EXPERIENCE)
 
 # Create your models here.

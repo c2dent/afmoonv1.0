@@ -4,6 +4,8 @@ from django.contrib.auth.models import Group
 from .forms import UserChangeForm, UserCreationForm, LoginForm
 from mptt.admin import MPTTModelAdmin
 
+from moderation.admin import ModerationAdmin
+
 from .models import User, Region, Category, BaseProduct, Apartment, Avtomobil, AdditonalImage
 from .models import House, Land, Vacancy, Resume
 
@@ -81,8 +83,8 @@ class LandAdmin(BaseProductAdmin):
 class VacancyAdmin(BaseProductAdmin):
 	fields = BaseProductAdmin.fields + ['schedule', 'work_experience']
 
-class ResumeAdmin(VacancyAdmin):
-	fields = VacancyAdmin.fields + ['gender', 'age']
+class ResumeAdmin(BaseProductAdmin):
+	fields = BaseProductAdmin.fields + ['gender', 'age', 'schedule', 'work_experience']
 
 # Register your models here.
 admin.site.register(Category, CategoryAdmin)
